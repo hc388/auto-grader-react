@@ -2,6 +2,7 @@ import './App.css'
 import React, {useState} from 'react';
 import logo from './logo.png'
 import LoginForm from './LoginForm'
+import {Link, Redirect} from 'react-router-dom'
 
 
 
@@ -20,26 +21,30 @@ function HomePage(props) {
         updatePass(newPass)
     }
 
-    let validateLogin = () => {
-        if (userName === "user" && passWord === "user") {
+    let validateLogin = (pass,user) => {
+        if (user === "user" && pass === "user") {
             console.log("ROLE IS USER")
             updateRole("user")
             updatePage("Login")
         }
-        else if (userName === "admin" && passWord === "admin") {
+        else if (user === "admin" && pass === "admin") {
             console.log("ROLE IS ADMIN")
             updateRole("admin")
-            updatePage("Login")
+            updatePage("Login");
+            <Link to="/instructor"/>
         }
-        else if(userName !== "")
+        else if(user !== "")
             updateRole("notfound")
+        
     }
     return (
             <div>
                 <LoginForm upUser={userUpdater} upPass={passUpdater} status={0}
                                            validator={validateLogin}/>
+                {role === "admin" && <Redirect to="/instructor" />}
 
-                {role === "notfound" ? <h2 id="login-error-msg">Username and/or Password is wrong.</h2> : <h2></h2>}
+                {role === "notfound" && <h2 id="login-error-msg">Username and/or Password is wrong.</h2>}
+
             </div>
     );
 }

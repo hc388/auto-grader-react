@@ -6,12 +6,10 @@ function LoginForm(props){
     const [pass, updatePass] = useState("")
 
     let submitHandler = event => {
-        props.validator()
         event.preventDefault();
-
+        props.validator(user,pass)
         props.upPass(pass)
         props.upUser(user)
-
         updateUser("")
         updatePass("")
 
