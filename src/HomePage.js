@@ -3,6 +3,7 @@ import React, {useState} from 'react';
 import logo from './logo.png'
 import LoginForm from './LoginForm'
 import {Link, Redirect} from 'react-router-dom'
+import { sendStatusCode } from 'next/dist/server/api-utils';
 
 
 
@@ -12,6 +13,7 @@ function HomePage(props) {
     const [passWord, updatePass] = useState("")
     const [role, updateRole] = useState("")
     const [page, updatePage] = useState("")
+    const [status, updateStatus] = useState("0")
 
     let userUpdater = newUser => {
         updateUser(newUser)
@@ -21,7 +23,7 @@ function HomePage(props) {
         updatePass(newPass)
     }
 
-    let validateLogin = (pass,user) => {
+    let validateLogin = (user,pass) => {
         if (user === "user" && pass === "user") {
             console.log("ROLE IS USER")
             updateRole("user")
@@ -33,17 +35,18 @@ function HomePage(props) {
             updatePage("Login");
             <Link to="/instructor"/>
         }
-        else if(user !== "")
+        else if(user !== ""){
+
             updateRole("notfound")
+            updateStatus(1)
+        }
         
     }
     return (
             <div>
-                <LoginForm upUser={userUpdater} upPass={passUpdater} status={0}
+                <LoginForm upUser={userUpdater} upPass={passUpdater} status={status}
                                            validator={validateLogin}/>
                 {role === "admin" && <Redirect to="/instructor" />}
-
-                {role === "notfound" && <h2 id="login-error-msg">Username and/or Password is wrong.</h2>}
 
             </div>
     );
