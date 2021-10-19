@@ -5,6 +5,9 @@ import NavHead from './NavHead';
 import HomePage from './HomePage';
 import InstructorHome from './InstructorHome';
 import QuestionMaker from './QuestionMaker';
+import ExamMaker from './ExamMaker';
+import StudentHome from './StudentHome'
+import TakeExam from './TakeExam'
 
 
 function App() {
@@ -16,6 +19,9 @@ function App() {
           <Route exact path="/" component={HomePage} />
           <Route exact path="/instructor" component={InstructorHome} />
           <Route exact path="/instructor/question-maker" component={QuestionMaker} />
+          <Route exact path="/instructor/exam-maker" component={ExamMaker} />
+          <Route exact path="/student" component = {StudentHome} />
+          <Route exact path="/student/take-exam" component = {TakeExam} />
         </Switch>
       </Router>
     </div>

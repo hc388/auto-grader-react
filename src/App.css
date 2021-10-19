@@ -37,18 +37,54 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-
-
 }
 
+.container-main-exam{
+  width: 80%;
+  min-height: 1600px;
+  height: 100%;
+  background: #F4F4F4;
+  margin: 100px auto auto;
+}
+
+.exam-header{
+  padding-top: 20px;
+  font-size: 50px;
+}
 .container-left{
   width: 1018px;
   height: 936px;
   display: flex;
   flex-direction: column;
+}
 
+.question-list-item{
+  height: 120px;
+  font-size: 40px;
+  display: flex;
+  justify-content: center;
+}
 
+.left-section > input{
+  width: 40px;
+  height: 40px;
+  transform: scale(2);
+  
+}
+.right-section{
+  justify-content: flex-end;
+  margin-left: 40px;
+}
+.right-section > input{
+  width: 40px;
+  height: 40px;
+  transform: scale(2);
+}
 
+.exam-name{
+  font-size: 20px;
+  height: 60px;
+  padding-left: 20px;
 }
 
 .greet-msg{
@@ -142,6 +178,10 @@
 }
 
 .make-question > a{
+  width: 100%;
+}
+
+.make-exam > a{
   width: 100%;
 }
 
@@ -279,6 +319,35 @@ body {
   opacity: 1;
   display: inline-block;
 }
+.container-exam{
+  width: 70%;
+  margin: 0 auto;
+}
+.ques-block{
+  font-size: 30px;
+  display:flex;
+  justify-content: flex-start;
+  padding-bottom: 10px;
+}
+.exam-take-point{
+  margin-left: 50px;
+  justify-items: flex-end;
+}
+
+.answer-box{
+  height: 200px;
+  width: 60%;
+  font-size: 25px;
+  padding-bottom: 50px;
+}
+
+textarea{
+  vertical-align: top;
+}
+
+
+
+
 
 @keyframes App-logo-spin {
   from {

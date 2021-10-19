@@ -28,7 +28,6 @@ class NewApiCall extends React.Component{
           console.log("API WAS CALLED")
         const login = await Axios.post('login.php', tempObj)
         console.log("Response from fetch: ", login.data)
-        let tempStatus = 1
         return login.data
        }
 
@@ -51,9 +50,7 @@ class NewApiCall extends React.Component{
               console.log("API WAS CALLED")
             const login = await Axios.post('login.php', tempObj)
             console.log("Response from fetch: ", login.data)
-            let tempStatus = 1
             this.props.updateDetails(login.data)
-
 
         }
 

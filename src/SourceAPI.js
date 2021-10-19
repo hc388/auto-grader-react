@@ -11,8 +11,20 @@ export const addQuestionToBank = async function(quesObj) {
       });
       return response.json(); // parses JSON response into native JavaScript objects
     }
+    export const createExam = async function(examToAdd){
+      const response = await fetch(`${api}/createExam.php`,{
+          method: 'POST', 
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(examToAdd) // body data type must match "Content-Type" header
+        });
+        console.log(response.json)
+        return response.json(); // parses JSON response into native JavaScript objects
+      }
 
 export const listQuestionBank = async function(){
+  console.log("CAme in heressss")
     const response = await fetch(`${api}/listQuestionBank.php`,{
         method: 'GET', 
         headers: {
@@ -20,5 +32,7 @@ export const listQuestionBank = async function(){
         },
          // body data type must match "Content-Type" header
       });
+      console.log(response)
       return response.json(); // parses JSON response into native JavaScript objects
     }
+

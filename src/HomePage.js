@@ -51,6 +51,7 @@ function HomePage(props) {
                                            validator={validateLogin}/>
                 { apiStatus ===  1 && <NewApiCall user={userName} pass={passWord} updateDetails={detailsUpdater} stopper = {rollBackApiStatus}/> }
                 {role === "Instructor" && <Redirect to="/instructor" />}
+                {role === "Student" && <Redirect to="/student" />} 
 
             </div>
     );
