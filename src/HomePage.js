@@ -1,9 +1,9 @@
+/* eslint-disable no-unused-vars */
 import './App.css'
 import React, {useState} from 'react';
-import logo from './logo.png'
 import LoginForm from './LoginForm'
+import NewApiCall from './NewApiCall';
 import {Link, Redirect} from 'react-router-dom'
-import { sendStatusCode } from 'next/dist/server/api-utils';
 
 
 
@@ -13,7 +13,11 @@ function HomePage(props) {
     const [passWord, updatePass] = useState("")
     const [role, updateRole] = useState("")
     const [page, updatePage] = useState("")
+    const [id, updateId] = useState("");
     const [status, updateStatus] = useState("0")
+    const [apiStatus, updateApiStatus] = useState(0)
+
+    let makeCallToApi = 0
 
     let userUpdater = newUser => {
         updateUser(newUser)
@@ -23,30 +27,30 @@ function HomePage(props) {
         updatePass(newPass)
     }
 
-    let validateLogin = (user,pass) => {
-        if (user === "user" && pass === "user") {
-            console.log("ROLE IS USER")
-            updateRole("user")
-            updatePage("Login")
-        }
-        else if (user === "admin" && pass === "admin") {
-            console.log("ROLE IS ADMIN")
-            updateRole("admin")
-            updatePage("Login");
-            <Link to="/instructor"/>
-        }
-        else if(user !== ""){
-
-            updateRole("notfound")
-            updateStatus(1)
-        }
+    let detailsUpdater = newDetails => {
+        rollBackApiStatus()
+        console.log("Details received", newDetails)
+        updateRole(newDetails.role)
+        updateId(newDetails.id)
         
+    }
+    let validateLogin = (user,pass) => {
+        updateUser(user)
+        updatePass(pass)
+        updateApiStatus(1)
+
+        console.log("Changed value to 1")
+        
+    }
+    let rollBackApiStatus = () => {
+        updateApiStatus(0)
     }
     return (
             <div>
                 <LoginForm upUser={userUpdater} upPass={passUpdater} status={status}
                                            validator={validateLogin}/>
-                {role === "admin" && <Redirect to="/instructor" />}
+                { apiStatus ===  1 && <NewApiCall user={userName} pass={passWord} updateDetails={detailsUpdater} stopper = {rollBackApiStatus}/> }
+                {role === "Instructor" && <Redirect to="/instructor" />}
 
             </div>
     );

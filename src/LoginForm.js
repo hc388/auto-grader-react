@@ -8,10 +8,10 @@ function LoginForm(props){
     let submitHandler = event => {
         event.preventDefault();
         props.validator(user,pass)
-        props.upPass(pass)
-        props.upUser(user)
-        updateUser("")
-        updatePass("")
+        // props.upPass(pass)
+        // props.upUser(user)
+        // updateUser("")
+        // updatePass("")
 
     }
 
