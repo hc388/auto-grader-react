@@ -8,7 +8,8 @@ class NewExamMaker extends React.Component{
     constructor(props){
         super(props)
         this.state = {
-            examName : ""
+            examName : "",
+            status : 0
         }
         let scoreObj = {}
         this.handleSubmit = this.handleSubmit.bind(this)
@@ -30,13 +31,14 @@ class NewExamMaker extends React.Component{
     }
 
      handleSubmit = async () => {
+        this.setState({status: 1})
         console.log("Submitted!!")
         let finalObj = {}
         finalObj.examObject = this.scoreObj
         console.log(this.scoreObj)
         console.log(finalObj)
         let response = await SourceAPI.createExam(finalObj)
-        console.log(response)
+        console.log("Response from the submitted exam: ", response)
         
         
     }
@@ -51,21 +53,13 @@ class NewExamMaker extends React.Component{
 
     render(){return(
         <div className="container-main-exam">
-            <h1 className="exam-header">Select Questions to Compile</h1>
+            <h1 className="exam-header">Select Questions and Score to Submit</h1>
             <ul className="questions-list">
             {this.props.questionList.map(obj => {
                 return(
                     <li key={obj.qid}>
                         <div className="question-list-item">
                             <div className="left-section">
-                                <input 
-                                    type="checkbox"
-                                    id={obj.id}
-                                    name={obj.id}
-                                    value={obj.questionString}
-                                    checked={false}
-                                    
-                                    />
                                     <label htmlFor={"obj.id"}>{obj.questionString}</label>                            
                             </div>
                             <div className="right-section">
@@ -81,6 +75,7 @@ class NewExamMaker extends React.Component{
                 
             </div>
             <button style={{width: "200px"}} onClick={this.handleSubmit}>Submit Exam</button>
+                {this.state.status === 1 && <h2>Question Submitted</h2>}
             </ul>
         </div>
     )
