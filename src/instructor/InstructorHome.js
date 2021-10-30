@@ -15,11 +15,6 @@ function InstructorHome(props) {
       </div>
       <div className="container-right">
         <div className="container-links">
-          <div className="make-exam">
-            <Link to="/instructor/list-all-exams">
-              <span className="span-link">Show All Exams</span>
-            </Link>{" "}
-          </div>
           <div className="make-question">
             <Link to="/instructor/question-maker">
               <button className="span-link"> Make a Question</button>{" "}
@@ -30,9 +25,9 @@ function InstructorHome(props) {
               <button className="span-link"> Make an Exam</button>{" "}
             </Link>
           </div>
-          <div className="check-grades">
+          <div className="make-exam">
             <Link to="/instructor/check-grades">
-              <span className="span-link">Check Grades</span>{" "}
+              <button className="span-link">Check Grades</button>{" "}
             </Link>
           </div>
         </div>

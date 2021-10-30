@@ -35,6 +35,7 @@ const NewExamMaker = (props) => {
 
   return (
     <div className="container-main-exam">
+      <div style={{"height": "80%","margin-bottom": "100px"}}>
       <h1 className="exam-header">Select Questions and Score to Submit</h1>
       <ul className="questions-list">
         {props.questionList.map((obj) => {
@@ -55,6 +56,8 @@ const NewExamMaker = (props) => {
             </li>
           );
         })}
+      </ul>
+      </div>
         <div>
           <h1>Exam name</h1>
           <input
@@ -67,7 +70,7 @@ const NewExamMaker = (props) => {
           Submit Exam
         </button>
         {status === 1 && <h2>Exam Submitted</h2>}
-      </ul>
+
     </div>
   );
 };

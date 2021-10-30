@@ -1,6 +1,7 @@
 import React from "react";
 import RenderExamMaker from "./RenderExamMaker";
 import * as SourceAPI from "../misc/SourceAPI";
+import Container from "react-bootstrap/Container";
 
 class ExamMaker extends React.Component {
   constructor(props) {
@@ -21,11 +22,11 @@ class ExamMaker extends React.Component {
   render() {
     //this.state.questions.map(obj=> console.log(obj.questionString))
     return (
-      <div>
+      <Container>
         {this.state.questions.length !== 0 && (
           <RenderExamMaker questionList={this.state.questions} />
         )}
-      </div>
+      </Container>
     );
   }
 }

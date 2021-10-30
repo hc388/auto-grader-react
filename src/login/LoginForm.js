@@ -16,7 +16,7 @@ function LoginForm(props) {
   };
 
   return (
-  <Container>
+  <Container className="container-fluid" style={{ "max-width": "1619px"}}>
     <div className="container-main">
       <div className="container-left">
         <img src={books} alt="books.jpg" />
