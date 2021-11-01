@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import DisplayExam from "./DisplayExam";
 import { Link } from "react-router-dom";
+import {Table, Button} from "react-bootstrap";
 
 const ShowAllExams = (props) => {
   const [dataArray, setdataArray] = useState([]);
@@ -29,9 +30,11 @@ const ShowAllExams = (props) => {
     <div className="container-main-exam">
       <h1 className="exam-header">Select Exam</h1>
       <div className="exam-list">
+      <Table>
         {dataArray.map((obj) => (
-          <div className="list">
-            <h3>{obj}</h3>
+          <tr>
+            <td>{obj}</td>
+            <td>
             <button
               className="exam-list-item"
               key={obj}
@@ -39,9 +42,11 @@ const ShowAllExams = (props) => {
             >
               Run AutoGrade
             </button>
-          </div>
+            </td>
+          </tr>
         ))}
         {state && <DisplayExam examId={key} />}
+      </Table>
       </div>
     </div>
   );
