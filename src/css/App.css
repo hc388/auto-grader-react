@@ -1,11 +1,22 @@
-html, body, .App, .App>div {
-  height: 100%
+#root {
+  background: #2c2828;
+}
+
+.questions-rows {
+  font-size: 25px;
+}
+
+.logout-button {
+  padding-top: 20px;
+  height: 100%;
+  width: 100%;
+  font-weight: 900 !important;
+  background-color: #6358dc !important;
 }
 
 .App {
   text-align: center;
-  max-width: 2200px;
-  margin: 0px auto;
+  width: 100%;
 }
 .nav-container {
   display: flex;
@@ -15,6 +26,10 @@ html, body, .App, .App>div {
 .logo-img {
   height: 100px;
   margin-left: 20px;
+}
+
+.nav-header {
+  display: flex;
 }
 
 .header-main {
@@ -117,12 +132,11 @@ html, body, .App, .App>div {
   padding: 20px;
 }
 
-.result-question-bottom > textarea{
-  box-sizing:border-box;
+.result-question-bottom > textarea {
+  box-sizing: border-box;
   width: 80%;
   height: 80%;
   padding: 20px;
-
 }
 
 .container-testcase {
@@ -191,17 +205,15 @@ html, body, .App, .App>div {
   width: 100%;
 }
 
-.make-question > a {
-  width: 100%;
-}
-
+.make-question > a,
+.see-grades > a,
 .make-exam > a {
   width: 100%;
+  background-color: #0d6efd;
 }
 
 .span-link {
   font-family: "poppins/900-italic", sans-serif;
-  font-size: 40px;
   font-weight: 900;
 }
 
@@ -263,6 +275,10 @@ html, body, .App, .App>div {
   align-items: flex-start;
 }
 
+input[type="checkbox"] {
+  transform: scale(1.75);
+}
+
 .form-container > input {
   font-size: 35px;
   height: 77px;
@@ -289,7 +305,7 @@ html, body, .App, .App>div {
 .question-btn {
   font-size: 30px;
 }
-button {
+.form-container > button {
   background-color: #6358dc;
   color: white;
   margin: 28px 0;
@@ -332,20 +348,16 @@ button {
   margin-right: 50px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
 .App-link {
   color: #61dafb;
 }
 
 body {
   font-family: "Poppins", sans-serif;
-  background-size: auto;
+  background-image: url("../img/backg.jpg");
+  background-size: cover;
 }
+
 #login-error-msg {
   width: 100%;
   text-align: center;
@@ -390,7 +402,7 @@ textarea {
   padding-bottom: 50px;
 }
 
-.result-question-segment{
+.result-question-segment {
   margin: 0px auto;
   padding-bottom: 50px;
 }
@@ -404,10 +416,11 @@ textarea {
   border: 1px solid grey;
 }
 
-.result-question-top{
+.result-question-top {
   display: flex;
   justify-content: space-between;
-  align-items: center;height: 100px;
+  align-items: center;
+  height: 100px;
   border: 1px solid grey;
 }
 
@@ -425,7 +438,6 @@ textarea {
   align-items: center;
   justify-content: center;
 }
-
 
 .question-statement {
   margin-left: 20px;
@@ -453,24 +465,14 @@ textarea {
   font-size: 20px;
 }
 
-.result-comment-section{
+.result-comment-section {
   height: 100px;
   margin-bottom: 50px;
 }
-
 
 #answer-box {
   width: 80%;
   height: 300px;
   margin-left: 20px;
   font-size: 30px;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
 }

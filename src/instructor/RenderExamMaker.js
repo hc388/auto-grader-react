@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { Table, Row, Col, Button } from "react-bootstrap";
 
 const NewExamMaker = (props) => {
   const [examName, setExamName] = useState("");
@@ -9,7 +10,7 @@ const NewExamMaker = (props) => {
   const onInputChange = (e, id) => {
     setScoreObject({
       ...scoreObject,
-      [id]: e.target.value,
+      [id]: e.target.value
     });
   };
 
@@ -27,49 +28,50 @@ const NewExamMaker = (props) => {
         "https://beta-0990913.herokuapp.com/api/createExam.php",
         JSON.stringify({
           examName: examName,
-          questionPointsMap: filtered,
+          questionPointsMap: filtered
         })
       )
       .then((data) => console.log(data));
   };
 
   return (
-    <div className="container-main-exam">
-      <div style={{"height": "80%","margin-bottom": "100px"}}>
-      <h1 className="exam-header">Select Questions and Score to Submit</h1>
-      <ul className="questions-list">
-        {props.questionList.map((obj) => {
-          return (
-            <li key={obj.qid}>
-              <div className="question-list-item">
-                <div className="left-section">
-                  <label htmlFor={"obj.id"}>{obj.questionString}</label>
-                </div>
-                <div className="right-section">
+      <div style={{ "height": "80%", "margin-bottom": "100px" }}>
+        <h1 className="exam-header">Select Questions and Score to Submit</h1>
+        <Table>
+          <tr>
+            <th>Question</th>
+            <th>Points</th>
+          </tr>
+          {props.questionList.map((obj) => {
+            return (
+              <tr key={obj.qid}>
+                <td style={{"font-size": "25px"}}>{obj.questionString}</td>
+                <td>
                   <input
                     type="number"
                     className="question-list-item-score"
                     onChange={(e) => onInputChange(e, obj.qid)}
-                  ></input>
-                </div>
-              </div>
-            </li>
-          );
-        })}
-      </ul>
+                  />
+                </td>
+              </tr>
+            );
+          })}
+
+        </Table>
+
+
+      <div>
+        <h1>Exam name</h1>
+        <input
+          type="text"
+          className="exam-name"
+          onChange={(e) => setExamName(e.target.value)}
+        />
       </div>
-        <div>
-          <h1>Exam name</h1>
-          <input
-            type="text"
-            className="exam-name"
-            onChange={(e) => setExamName(e.target.value)}
-          ></input>
-        </div>
-        <button style={{ width: "200px" }} onClick={handleSubmit}>
-          Submit Exam
-        </button>
-        {status === 1 && <h2>Exam Submitted</h2>}
+      <Button className="btn-lg" onClick={handleSubmit}>
+        Submit Exam
+      </Button>
+      {status === 1 && <h2>Exam Submitted</h2>}
 
     </div>
   );

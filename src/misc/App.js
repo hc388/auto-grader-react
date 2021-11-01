@@ -12,16 +12,11 @@ import NavHead from "./NavHead";
 import HomePage from "../login/HomePage";
 import InstructorHome from "../instructor/InstructorHome";
 import QuestionMaker from "../instructor/QuestionMaker";
-import ExamMaker from "../instructor/ExamMaker";
 import StudentHome from "../student/StudentHome";
-import TakeExam from "../student/TakeExam";
 import Temp from "../instructor/Temp";
 import React, { useState } from "react";
-import ShowAllExams from "../instructor/ShowAllExams";
 import DisplayExam from "../instructor/DisplayExam";
-import Student_DisplayExam from "../student/Student_DisplayExam";
 import Student_ShowAllExams from "../student/Student_ShowAllExams";
-import id from "../login/HomePage";
 import CheckGrades from "../instructor/CheckGrades";
 import DisplayGrades from "../instructor/DisplayGrades";
 import GradesByStudent from "../instructor/GradesByStudent";
@@ -32,10 +27,8 @@ import StudentDisplayGrades from "../student/StudentDisplayGrades";
 function App() {
   const [id, updateId] = useState("");
   return (
-
-    <div className="App">
-
       <Router>
+        <body className="App">
         <NavHead />
         <Switch>
           <Route exact path="/">
@@ -43,9 +36,6 @@ function App() {
           </Route>
           <Route exact path="/instructor">
             <InstructorHome instructorId={id} />
-          </Route>
-          <Route exact path="/instructor/list-all-exams">
-            <ShowAllExams instructorId={id} />
           </Route>
           <Route exact path="/instructor/question-maker">
             <QuestionMaker instructorId={id} />
@@ -82,8 +72,9 @@ function App() {
 
 
         </Switch>
+        </body>
       </Router>
-    </div>
+
   );
 }
 

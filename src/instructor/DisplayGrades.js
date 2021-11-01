@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from 'axios'
+import {Table, Button} from "react-bootstrap";
 
 const DisplayGrades = (props) => {
 
@@ -30,19 +31,21 @@ const DisplayGrades = (props) => {
     <div className="container-main-exam">
       <h1 className="exam-header">Results</h1>
       {loading ? <h1>LOADING....</h1> :
-        <div className="exam-list">
+        <Table className="exam-list text-lg-center">
           {
             studentName.map((name, index) => (
-              <div className="list" key={index}>
-                <h3>{name}</h3>
-                <h3 className="exam-list-item">{scores[index]}</h3>
+              <tr key={index}>
+                <td style={{"font-size":"40px"}}>{name}</td >
+                <td className="exam-list-item">{scores[index]}</td>
+                <td>
                 <Link to={`/instructor/check-grades/${examId}/${name}`}>
-                <button style={{width: "200px"}}>View Scores</button>
+                <Button style={{width: "200px"}}>View Scores</Button>
                 </Link>
-              </div>
+                </td>
+              </tr>
             ))
           }
-        </div>
+        </Table>
       }
     </div>
   )

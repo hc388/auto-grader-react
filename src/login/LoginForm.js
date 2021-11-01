@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import books from "../img/books.jpg";
 import {Container} from "react-bootstrap";
 
 function LoginForm(props) {
   const [user, updateUser] = useState("");
   const [pass, updatePass] = useState("");
+  const [status, setStatus] = useState()
 
   let submitHandler = (event) => {
     event.preventDefault();
@@ -14,6 +15,24 @@ function LoginForm(props) {
     // updateUser("")
     // updatePass("")
   };
+
+  useEffect (() => {
+    setStatus(props.status)
+  },[status, props.status])
+
+  const onUserChange = event => {
+    if(status === 1 || status === 2){
+      console.log("Changing status")
+      setStatus(0)
+    }
+    updateUser(event.target.value)
+  }
+
+  const onPassChange = event => {
+    if(status === 1 || status === 2)
+      setStatus(0)
+    updatePass(event.target.value)
+  }
 
   return (
   <Container className="container-fluid" style={{ "max-width": "1619px"}}>
@@ -39,7 +58,7 @@ function LoginForm(props) {
               placeholder="Enter Username"
               name="user"
               required
-              onChange={(e) => updateUser(e.target.value)}
+              onChange={(e) => onUserChange(e)}
             />
 
             <label className="label-form" htmlFor="pass">
@@ -50,16 +69,16 @@ function LoginForm(props) {
               placeholder="Enter Password"
               name="pass"
               required
-              onChange={(e) => updatePass(e.target.value)}
+              onChange={(e) => onPassChange(e)}
             />
 
             <button type="submit" onClick={submitHandler} value="Login">
               Login
             </button>
-            {props.status === 1 && (
+            {status === 1 && (
               <p id="login-error-msg">!! Invalid username and/or password</p>
             )}
-            {props.status === 2 && (
+            {status === 2 && (
               <p id="login-error-msg">!! You Must Login First</p>
             )}
           </div>

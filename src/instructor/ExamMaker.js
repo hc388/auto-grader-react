@@ -2,6 +2,7 @@ import React from "react";
 import RenderExamMaker from "./RenderExamMaker";
 import * as SourceAPI from "../misc/SourceAPI";
 import Container from "react-bootstrap/Container";
+import FilterSelectedQuestions from "./FilterSelectedQuestions";
 
 class ExamMaker extends React.Component {
   constructor(props) {
@@ -23,8 +24,9 @@ class ExamMaker extends React.Component {
     //this.state.questions.map(obj=> console.log(obj.questionString))
     return (
       <Container>
+        Hello
         {this.state.questions.length !== 0 && (
-          <RenderExamMaker questionList={this.state.questions} />
+          <FilterSelectedQuestions questionList={this.state.questions} />
         )}
       </Container>
     );

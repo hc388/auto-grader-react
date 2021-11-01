@@ -1,18 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import logo from "../img/logo.png";
-import {Container} from "react-bootstrap";
+import {Container, Button} from "react-bootstrap";
 
 const NavHead = () => (
-  <Container>
-  <div className="nav-container">
+  <header className="nav-header">
     <img className="logo-img" alt="logo" src={logo} />
     <h2 className="header-main">Auto Grader</h2>
-    <Link to="/">
-      <button style={{ width: "200px" }}>LOGOUT</button>
+    <Link to="/" className="logout-corner">
+      <Button className="btn-lg logout-button">LOGOUT</Button>
     </Link>
-  </div>
-  </Container>
+  </header>
 );
 
 export default NavHead;

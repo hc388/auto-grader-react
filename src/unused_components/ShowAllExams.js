@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import DisplayExam from "./DisplayExam";
+import DisplayExam from "../instructor/DisplayExam";
 import { Link } from "react-router-dom";
 import {Table, Button} from "react-bootstrap";
 

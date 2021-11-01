@@ -1,6 +1,8 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import { Link, Redirect } from "react-router-dom";
+import { Table, Container, Button } from "react-bootstrap";
+
 
 function InstructorHome(props) {
 
@@ -17,17 +19,17 @@ function InstructorHome(props) {
         <div className="container-links">
           <div className="make-question">
             <Link to="/instructor/question-maker">
-              <button className="span-link"> Make a Question</button>{" "}
+              <Button className="btn-lg span-link" style={{"font-size": "40px"}}> Make a Question</Button>{" "}
             </Link>
           </div>
           <div className="make-exam">
             <Link to="/instructor/exam-maker">
-              <button className="span-link"> Make an Exam</button>{" "}
+              <Button className="btn-lg span-link " style={{"font-size": "40px"}}> Make an Exam</Button>{" "}
             </Link>
           </div>
-          <div className="make-exam">
+          <div className="see-grades">
             <Link to="/instructor/check-grades">
-              <button className="span-link">Check Grades</button>{" "}
+              <Button className="btn-lg span-link" style={{"font-size": "40px"}}>Check Grades</Button>{" "}
             </Link>
           </div>
         </div>

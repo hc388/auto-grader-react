@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import {Link} from 'react-router-dom'
+import { Link } from "react-router-dom";
+import { Table, Button } from "react-bootstrap";
+
+
 const CheckGrades = (props) => {
   const [dataArray, setdataArray] = useState([]);
   const [state, setState] = useState(false);
@@ -31,26 +34,31 @@ const CheckGrades = (props) => {
     //autoGradeByExam
   };
 
-  const ViewScoresClickHandler = (e,obj) => {
+  const ViewScoresClickHandler = (e, obj) => {
     setKey(obj);
-    setState(true)
-  }
+    setState(true);
+  };
 
 
   return (
     <div className="container-main-exam">
-      <h1 className="exam-header">Select Exam to AutoGrade</h1>
-      <div className="exam-list">
+      <h1 className="exam-header">Select Exam</h1>
+      <Table style={{"margin-left":"100px"}}>
         {dataArray.map((obj) => (
-          <div className="list" key={`div${obj}`}>
-            <h3>{obj}</h3>
-            <Link to={`/instructor/check-grades/:${obj}`} >
-            <button className="exam-list-item"
-                    key={`score${obj}`}
-            onClick={e => ViewScoresClickHandler(e,obj)}>
-              View Scores
-            </button>
-            </Link>
+          <tr key={`div${obj}`}>
+            <td className="th-lg" style={{"font-size" : "40px"}}>{obj}</td>
+            <td>
+              <Link to={`/instructor/check-grades/:${obj}`}>
+
+                <button className="exam-list-item"
+                        key={`score${obj}`}
+                        onClick={e => ViewScoresClickHandler(e, obj)}>
+                  View Scores
+                </button>
+
+              </Link>
+            </td>
+            <td>
             <button
               className="exam-list-item"
               key={obj}
@@ -58,11 +66,12 @@ const CheckGrades = (props) => {
             >
               Run AutoGrade
             </button>
-          </div>
+            </td>
+          </tr>
         ))}
         {console.log(key)}
-        {state && <Link to={`/instructor/check-grades/${key}`} />}
-      </div>
+        {state && <Link to={`/instructor/check-grades/${key}`}/>}
+      </Table>
     </div>
   );
 };

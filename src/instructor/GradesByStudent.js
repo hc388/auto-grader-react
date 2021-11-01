@@ -25,7 +25,7 @@ const GradesByStudent = props => {
       examId: params.examName, studentName: params.studentID
     }))
       .then(resp => {
-        console.log(resp);
+        console.log("Detailed stats", resp);
         setScoreDetails(resp.data.studentScoreDetails);
         setLoading(false);
         updateInitialAnswers(resp);
