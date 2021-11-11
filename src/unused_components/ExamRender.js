@@ -1,52 +1,46 @@
-import React from "react";
+import React from 'react'
 
-class ExamRender extends React.Component {
+class FilterOptions extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
-      examName: "",
-      status: 0,
-    };
+      loading: true,
+      type: {}
+    }
+    this.sortType = this.sortType.bind(this)
   }
-  componentDidMount() {}
+
+  sortType = async () => {
+    await this.props.questionList.map(obj => {
+      let topic = obj.topic.toUpperCase()
+      if (!this.state.type.hasOwnProperty(topic)) {
+        this.setState({
+          type:{
+            [topic] : [obj]
+          }
+        })
+      }
+      else{
+        let prevArr = this.state.type.topic;
+        prevArr.push(obj)
+        this.setState({
+          type: {
+            [topic] : prevArr
+          }
+        })
+      }
+    })
+  }
+
+  async componentDidMount() {
+    await this.sortType
+    console.log(this.state.type)
+
+  }
 
   render() {
-    return (
-      <div className="container-main-exam">
-        <h1 className="exam-header">Select Questions and Score to Submit</h1>
-        <ul className="questions-list">
-          {this.props.questionList.map((obj, index) => {
-            return (
-              <li key={obj.id}>
-                <div className="question-list-item">
-                  <div className="left-section">
-                    <label htmlFor={"obj.id"}>{obj.questionString}</label>
-                  </div>
-                  <div className="right-section">
-                    <input
-                      type="number"
-                      className="question-list-item-score"
-                      onChange={(e) => this.onInputChange(e, obj.qid)}
-                    ></input>
-                  </div>
-                </div>
-              </li>
-            );
-          })}
-          <div>
-            <h1>Exam name</h1>
-            <input
-              type="text"
-              className="exam-name"
-              onChange={this.onExamNameChange}
-            ></input>
-          </div>
-          <button style={{ width: "200px" }} onClick={this.handleSubmit}>
-            Submit Exam
-          </button>
-          {this.state.status === 1 && <h2>Question Submitted</h2>}
-        </ul>
-      </div>
-    );
+    return(
+    ""
+    )
   }
 }

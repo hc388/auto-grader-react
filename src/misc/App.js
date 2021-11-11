@@ -22,13 +22,14 @@ import DisplayGrades from "../instructor/DisplayGrades";
 import GradesByStudent from "../instructor/GradesByStudent";
 import StudentCheckGrades from "../student/StudentCheckGrades";
 import StudentDisplayGrades from "../student/StudentDisplayGrades";
+import Student_DisplayExam from "../student/Student_DisplayExam";
 
 
 function App() {
   const [id, updateId] = useState("");
   return (
       <Router>
-        <body className="App">
+        <div className="App">
         <NavHead />
         <Switch>
           <Route exact path="/">
@@ -72,7 +73,7 @@ function App() {
 
 
         </Switch>
-        </body>
+        </div>
       </Router>
 
   );

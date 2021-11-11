@@ -35,45 +35,58 @@ const NewExamMaker = (props) => {
   };
 
   return (
-      <div style={{ "height": "80%", "margin-bottom": "100px" }}>
-        <h1 className="exam-header">Select Questions and Score to Submit</h1>
-        <Table>
-          <tr>
-            <th>Question</th>
-            <th>Points</th>
-          </tr>
-          {props.questionList.map((obj) => {
-            return (
-              <tr key={obj.qid}>
-                <td style={{"font-size": "25px"}}>{obj.questionString}</td>
-                <td>
-                  <input
-                    type="number"
-                    className="question-list-item-score"
-                    onChange={(e) => onInputChange(e, obj.qid)}
-                  />
-                </td>
-              </tr>
-            );
-          })}
+        <div style={{ "height": "80%", "margin-bottom": "100px" }}>
+          {props.questionList.length === 0 ? <h3 className="text-black-50">Questions selected will be displayed here...</h3> : (
+          <>
+          <Table>
+            <tr>
+              <th>Question</th>
+              <th>Points</th>
+            </tr>
+            {props.questionList.map((obj) => {
+              return (
+                <Row className="question-rows" key={obj.id}>
+                  <tr key={obj.qid} className="">
+                    <td className="list-section">
+                      <li class="list-item">{obj.questionString}
+                        <span class="list-item-detail">
+                      <span>Function: {obj.topic}</span>
+                      <span>Difficulty: {obj.difficulty}</span>
+                    </span>
+                      </li>
+                    </td>
+                    <td>
+                      <input
+                        type="number"
+                        className="question-list-item-score"
+                        onChange={(e) => onInputChange(e, obj.qid)}
+                      />
+                    </td>
+                  </tr>
+                </Row>
+              );
+            })}
 
-        </Table>
+          </Table>
 
 
-      <div>
-        <h1>Exam name</h1>
-        <input
-          type="text"
-          className="exam-name"
-          onChange={(e) => setExamName(e.target.value)}
-        />
-      </div>
-      <Button className="btn-lg" onClick={handleSubmit}>
-        Submit Exam
-      </Button>
-      {status === 1 && <h2>Exam Submitted</h2>}
+          <div>
+            <h1>Exam name</h1>
+            <input
+              style={{ fontSize: "30px" }}
+              type="text"
+              className="exam-name mb-5"
+              onChange={(e) => setExamName(e.target.value)}
+            />
+          </div>
+          <Button className="btn-lg mt-3 process-button" onClick={handleSubmit}>
+            Submit Exam
+          </Button>
+          {status === 1 && <h2 className="mt-5">Exam Submitted</h2>}
+        </>
+            )}
+        </div>
 
-    </div>
   );
 };
 

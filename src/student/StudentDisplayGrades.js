@@ -16,13 +16,12 @@ const GradesByStudent = props => {
   const [totalPoints, setTotalPoints] = useState()
   const data = localStorage.getItem('personId')
   const id = JSON.parse(data).id
-  console.log("Id looks like", id)
 
   let params = useParams();
 
   useEffect(async () => {
     await getExamLayout(params.examName);
-    const res = await axios.post("https://beta-0990913.herokuapp.com/api/seeExamAndGradeByStudent.php", JSON.stringify({
+    const res = await axios.post("https://beta-0990913.herokuapp.com/api/seeExamAndGradeByStudentRC.php", JSON.stringify({
       examId: params.examName, studentName: params.studentID
     }))
       .then(resp => {
@@ -63,18 +62,18 @@ const GradesByStudent = props => {
   return (
     <div className="container-main-exam">
       <h1 className="exam-header">Review Grade for {params.studentID}</h1>
-      <div className="preview-grade-section">
+      <div className="preview-grade-section container-scrollable">
 
         {loading ? <h1>Loading...</h1> :
           scoreDetails.map((obj, index) => {
             return <>
-              <Container>
+              <Container className="w-75">
                 <Row>
                   <Col className="col-7">
                     <QuestionBlock quesArray={questionArray[index]} index={index} gradeObj={obj}/>
                   </Col>
                   <Col className="col-5">
-                    <Table striped bordered hover size="sm" className="table table-hover table-fixed">
+                    <Table striped bordered hover size="lg" className="table table-hover table-fixed result-table" >
                       <thead>
                       <tr>
                         <th>TestCase</th>
@@ -93,17 +92,14 @@ const GradesByStudent = props => {
                       </tr>
                       </tbody>
                     </Table>
+                    {obj.comments === null &&  <input readOnly={"No Comment"} value={"No Comment..."} className="col-md-11 result-comment-section" /> }
+                    {obj.comments !== null && <input readOnly={obj.comments} value={comment} className="col-md-11 result-comment-section" />}
                   </Col>
                 </Row>
               </Container>
             </>;
           })
         }
-        <Container>
-          <Row className="col-lg-12">
-            <input value={"Any Comment Goes Here!"} className="result-comment-section" />
-          </Row>
-        </Container>
       </div>
     </div>
   );

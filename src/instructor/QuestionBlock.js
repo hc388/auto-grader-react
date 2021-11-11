@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, memo } from "react";
 import ResultTable from "./ResultTable";
 
 import { Container, Row, Col } from "react-bootstrap";
@@ -10,23 +10,36 @@ const QuestionBlock = (props) => {
     updateAnswer(e.target.value);
     props.onChange(e.target.value, props.qNo);
   };
+  console.log("QuestionBlock was kicked in")
   return (
-          <div className="result-question-segment">
-            <div className="result-question-top">
-              <h2 className="result-question-statement">
-                {props.quesArray.questionNo}. {props.quesArray.questionString}
-              </h2>
-              <h2 className="result-points-statement">{props.quesArray.points} Points</h2>
-            </div>
-            <div className="result-question-bottom">
-              <textarea readOnly={props.gradeObj.responses} className="result-results-textarea"
-                        value={props.gradeObj.responses}/>
-            </div>
-          </div>
+    // <div className="result-question-segment">
+    //   <div className="result-question-top">
+    //     <h2 className="result-question-statement">
+    //       {props.quesArray.questionNo}. {props.quesArray.questionString}
+    //     </h2>
+    //     <h2 className="result-points-statement">{props.quesArray.points} Points</h2>
+    //   </div>
+    //   <div className="result-question-bottom">
+    //     <textarea readOnly={props.gradeObj.responses} className="result-results-textarea"
+    //               value={props.gradeObj.responses}/>
+    //   </div>
+    // </div>
+    <Container className="result-question-segment">
+      <Row className="result-question-top">
+        <p className="col-md-9 result-question-statement mt-2">
+          {props.quesArray.questionNo}. {props.quesArray.questionString}
+        </p>
+        <h1 className="result-points-statement col-md-3">{props.gradeObj.pointsForQuestion}/{props.quesArray.points} Points</h1>
+      </Row>
+      <Row className="result-question-bottom">
+        <textarea readOnly={props.gradeObj.responses} className="result-results-textarea"
+                  value={props.gradeObj.responses}/>
+      </Row>
+    </Container>
   );
 };
 
-export default QuestionBlock;
+export default memo(QuestionBlock);
 
 // <Container fluid>
 //   <div className="results-left-area">

@@ -1,8 +1,8 @@
 import React from "react";
-import RenderExamMaker from "./RenderExamMaker";
+import RenderExamMaker from "../instructor/NewExamMaker";
 import * as SourceAPI from "../misc/SourceAPI";
 import Container from "react-bootstrap/Container";
-import FilterSelectedQuestions from "./FilterSelectedQuestions";
+import FilterSelectedQuestions from "../instructor/FilterSelectedQuestions";
 
 class ExamMaker extends React.Component {
   constructor(props) {
@@ -13,7 +13,7 @@ class ExamMaker extends React.Component {
   }
   async componentDidMount() {
     let response = await SourceAPI.listQuestionBank();
-    console.log(response.questions);
+    console.log(response);
     const result = response.questions.filter(
       (obj) => obj.questionString !== ""
     );

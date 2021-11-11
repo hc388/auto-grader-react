@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import QuestionExamBox from "./QuestionExamBox";
 import update from "react-addons-update";
+import { Table, Container, Button } from "react-bootstrap";
+
 
 class Student_DisplayExam extends React.Component {
   constructor(props) {
@@ -77,9 +79,9 @@ class Student_DisplayExam extends React.Component {
           />
         ))}
 
-        <button style={{ width: "350px" }} onClick={this.onSubmit}>
+        <Button className="btn-lg submit-exam-button" style={{ width: "550px", height: "100px", fontSize:"40px" }} onClick={this.onSubmit}>
           Submit Exam
-        </button>
+        </Button>
       </div>
     );
   }

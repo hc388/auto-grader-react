@@ -3,7 +3,7 @@ import axios from "axios";
 const api = "https://beta-0990913.herokuapp.com/api";
 
 export const addQuestionToBank = async function (quesObj) {
-  const response = await fetch(`${api}/addQuestionToBank.php`, {
+  const response = await fetch(`${api}/addQuestionToBankRC.php`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

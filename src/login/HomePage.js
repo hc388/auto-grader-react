@@ -11,8 +11,9 @@ function HomePage(props) {
   const [role, updateRole] = useState("");
   const [page, updatePage] = useState("");
   const [id, updateId] = useState("");
-  const [status, updateStatus] = useState("0");
+  const [status, updateStatus] = useState(0);
   const [apiStatus, updateApiStatus] = useState(0);
+  const [loading, setLoading] = useState(true)
 
   let makeCallToApi = 0;
 
@@ -38,7 +39,7 @@ function HomePage(props) {
     updateUser(user);
     updatePass(pass);
     updateApiStatus(1);
-    console.log("Changed value to 1");
+    setLoading(false)
   };
   let rollBackApiStatus = () => {
     updateApiStatus(0);
@@ -60,9 +61,9 @@ function HomePage(props) {
         />
       )}
       {role === "Instructor" && <Redirect to="/instructor" />}
-      {role === "Student" && (
-        <Redirect to={{ pathname: "/student", studentId: id }} />
-      )}
+      {role === "Student" && 
+        <Redirect to="/student" />
+      }
     </div>
   );
 }

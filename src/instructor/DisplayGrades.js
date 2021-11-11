@@ -15,8 +15,11 @@ const DisplayGrades = (props) => {
     examName = examName.slice(-examName.length + 1)
     setExamId(examName)
 
+    console.log("DISPLAY GRADES USEFFECT KICKED WITH", examName)
+
       await axios.post("https://beta-0990913.herokuapp.com/api/getGradesByExam.php", JSON.stringify({examName: examName}))
         .then(res => {
+          console.log("Display Grades js says ", res)
           if(res.data.responseCode === 404)
             return (<h1>Go back and Try again</h1>)
           setStudentName(res.data.examGrades.studentNames)

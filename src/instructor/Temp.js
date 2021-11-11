@@ -1,30 +1,71 @@
 import React, { useEffect, useState } from "react";
-import RenderExamMaker from "./RenderExamMaker";
 import * as SourceAPI from "../misc/SourceAPI";
 import FilterSelectedQuestions from "./FilterSelectedQuestions";
+import ShowAllQuestions from "./ShowAllQuestions";
+import Axios from "axios";
 
-const Temp = () => {
+const Temp = (props) => {
   const [questions, setQuestions] = useState([]);
-  const [loading, setLoading] = useState(true)
+  const [allQuestions, setAllQuestions] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  useEffect(async () => {
-    setLoading(true)
-    let response = await SourceAPI.listQuestionBank();
-    //console.log(response.questions);
-    setQuestions(response.questions.filter((obj) => obj.questionString !== ""));
-    let newArray = []
-    response.questions.map(obj => newArray.push(obj.questionString))
-    console.log(newArray)
-    setLoading(false)
-  }, []);
-  return(
-  <div>
-    <div className="container-main-exam">
-      <div style={{"height": "80%","margin-bottom": "100px"}}>
-          {<FilterSelectedQuestions questionList={questions} />}</div>
-    </div>
-  </div>
-  )
+  useEffect(() => {
+    setLoading(true);
+
+    async function fetchData() {
+      let response = await Axios.get("https://beta-0990913.herokuapp.com/api/listQuestionBankRC.php");
+      console.log(response);
+      setQuestions(response.data.questions.filter((obj) => obj.questionString !== ""));
+      setAllQuestions(response.data.questions.filter((obj) => obj.questionString !== ""));
+      let newArray = [];
+      response.data.questions.map(obj => newArray.push(obj.questionString));
+      console.log(newArray);
+      setLoading(false);
+    }
+
+    fetchData();
+
+  }, [props.submitStatus]);
+
+  const updateQuestionsByTopic = (type, key) => {
+    console.log("Updater got: ", type, key);
+
+    type === "topic" ?
+      setQuestions(questions.filter(obj => obj[type].toUpperCase() === key)) :
+      setQuestions(questions.filter(obj => obj[type].toUpperCase() === key));
+
+  };
+
+  const updateQuestionsByDiff = async (diff) => {
+    await setQuestions(allQuestions.filter(obj => obj.difficulty.toUpperCase() === diff));
+  };
+
+  const resetFilters = () => {
+    setQuestions(allQuestions);
+  };
+//obj[topic].toUpperCase() === topic)
+
+  const totalUpdate = (topic, diff) => {
+    console.log("TOTAL UPDATE GOT : ", topic, diff)
+    if (diff === "ALL" && topic === null)
+      setQuestions(allQuestions);
+    else if (diff === "ALL" && topic !== null)
+      setQuestions(allQuestions.filter(obj => obj.topic.toUpperCase() === topic))
+    else if (diff !== "ALL" && topic === null)
+      setQuestions(allQuestions.filter(obj => obj.difficulty.toUpperCase() === diff));
+    else
+      setQuestions(allQuestions.filter(obj => obj.difficulty.toUpperCase() === diff && obj.topic.toUpperCase() === topic));
+  };
+
+  return (
+    <>
+
+      {loading === false && (props.hasOwnProperty("type") ?
+        <ShowAllQuestions resetter={resetFilters} allQuestionList={allQuestions} questionList={questions}
+                          updateByTopic={updateQuestionsByTopic} updateByDiff={updateQuestionsByDiff} updater={totalUpdate} /> :
+        <FilterSelectedQuestions questionList={questions}/>)}
+    </>
+  );
 };
 
 export default Temp;

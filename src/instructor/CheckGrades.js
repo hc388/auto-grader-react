@@ -8,6 +8,7 @@ const CheckGrades = (props) => {
   const [dataArray, setdataArray] = useState([]);
   const [state, setState] = useState(false);
   const [key, setKey] = useState("");
+  const [autoGradeStatus, setAutoGradeStatus] = useState(false)
   let loading = true;
 
   useEffect(async () => {
@@ -22,7 +23,7 @@ const CheckGrades = (props) => {
   const autoGrade = async (obj) => {
     await axios
       .post(
-        "https://beta-0990913.herokuapp.com/api/autoGradeByExam.php",
+        "https://beta-0990913.herokuapp.com/api/autoGradeByExamRC.php",
         JSON.stringify({ examName: obj })
       )
       .then((res) => console.log(res));
@@ -31,6 +32,7 @@ const CheckGrades = (props) => {
   const GraderClickHandler = async (e, obj) => {
     await setKey(obj);
     autoGrade(obj).then((data) => console.log(data));
+    setAutoGradeStatus(true)
     //autoGradeByExam
   };
 
@@ -41,12 +43,13 @@ const CheckGrades = (props) => {
 
 
   return (
-    <div className="container-main-exam">
+    <div className="container-main-exam d-flex align-items-center flex-column">
       <h1 className="exam-header">Select Exam</h1>
-      <Table style={{"margin-left":"100px"}}>
+      <Table className="table-bordered table-striped" striped bordered hover size="lg" style={{"width":"90%"}}>
+        <tbody>
         {dataArray.map((obj) => (
           <tr key={`div${obj}`}>
-            <td className="th-lg" style={{"font-size" : "40px"}}>{obj}</td>
+            <td className="th-lg" style={{"fontSize" : "40px"}}>{obj}</td>
             <td>
               <Link to={`/instructor/check-grades/:${obj}`}>
 
@@ -68,10 +71,13 @@ const CheckGrades = (props) => {
             </button>
             </td>
           </tr>
+
         ))}
+        </tbody>
         {console.log(key)}
         {state && <Link to={`/instructor/check-grades/${key}`}/>}
       </Table>
+      { autoGradeStatus && <text className="mt-5" style={{fontSize: "50px"}}>Exam Graded!</text>}
     </div>
   );
 };

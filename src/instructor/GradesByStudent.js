@@ -13,15 +13,23 @@ const GradesByStudent = props => {
   const [scoreDetails, setScoreDetails] = useState([]);
   const [questionArray, setQuestionArray] = useState([]);
   const [answerArray, setAnswerArray] = useState([]);
-  const [comment, setComment] = useState("")
+  const [comment, setComment] = useState({})
   const [totalPoints, setTotalPoints] = useState()
   const [saveStatus, setSaveStatus] = useState(false)
+  const [updatedScore, setUpdatedScore] = useState([])
 
   let params = useParams();
 
   useEffect(async () => {
+    loading && getExamDetails()
+    console.log(updatedScore)
+
+
+  }, [saveStatus, updatedScore, loading]);
+
+  const getExamDetails = async () => {
     await getExamLayout(params.examName);
-    const res = await axios.post("https://beta-0990913.herokuapp.com/api/seeExamAndGradeByStudent.php", JSON.stringify({
+    const res = await axios.post("https://beta-0990913.herokuapp.com/api/seeExamAndGradeByStudentRC.php", JSON.stringify({
       examId: params.examName, studentName: params.studentID
     }))
       .then(resp => {
@@ -30,10 +38,8 @@ const GradesByStudent = props => {
         setLoading(false);
         updateInitialAnswers(resp);
       });
+  }
 
-
-
-  }, [saveStatus]);
 
   const updateInitialAnswers = (res) => {
     let scoreArray = res.data.studentScoreDetails;
@@ -71,81 +77,108 @@ const GradesByStudent = props => {
     await setAnswerArray(tempArray)
   }
 
+  const onCommentButtonClickHandler = () => {
+    //console.log(scoreObj, comment)
+  }
+
+  const commentUpdater = async (e, index) => {
+    await setComment(oldState => (
+      {
+        [index] : e.target.value
+      }
+    ))
+  }
+
+  const checkIfDuplicateEntryExists = (quesNo) => {
+    let index = 0
+    for (const obj in updatedScore){
+      index += 1
+      if(updatedScore[obj].questionNo === quesNo) {
+        console.log("Returning", index)
+        return index
+      }
+    }
+    return false
+  }
+
+
+  const updateQuestionValues = async (index, totalScore,  scoreObj, comment) => {
+    let newObj = {
+      questionNo : index+1,
+      pointsOfQuestion : totalScore,
+      testCasePoints: scoreObj,
+      comment: comment
+    }
+
+    await console.log(newObj)
+    if (checkIfDuplicateEntryExists(newObj.questionNo) !== false){
+      const indexValue = checkIfDuplicateEntryExists(newObj.questionNo)
+      console.log(indexValue)
+      console.log("Came in here")
+      let holdingArray = []
+      holdingArray = updatedScore
+      console.log("Before Updating", holdingArray)
+      holdingArray[indexValue-1] = newObj
+      console.log("After Updating", holdingArray)
+      await setUpdatedScore(holdingArray)
+    }
+    else
+      await setUpdatedScore(oldArray => [...oldArray, newObj])
+    //console.log(updatedScore)
+  }
+
+
+
+
 
   const updateScore = async () => {
+    //console.log(updatedScore)
 
     console.log(JSON.stringify({
-      studentScoreDetails: {
+      updateRequest: {
         examId: params.examName,
         studentId: params.studentID,
-        pointsPerQuestion: answerArray,
-        totalPoints: totalPoints,
-        comments: comment
+        studentScoreDetails:updatedScore
       }}))
-    const res = await axios.post("https://beta-0990913.herokuapp.com/api/updatePointsAndCommentsForExam.php",
+    const res = await axios.post("https://beta-0990913.herokuapp.com/api/updatePointsAndCommentsRC.php",
       JSON.stringify({
-        studentScoreDetails: {
+        updateRequest: {
           examId: params.examName,
           studentId: params.studentID,
-          pointsPerQuestion: answerArray,
-          totalPoints: totalPoints,
-          comments: comment
-        }
-    })).then(
-      resp => console.log(resp)
+          studentScoreDetails:updatedScore
+        }})).then(
+      resp => console.log("After updating to API response looks like: ", resp)
     )
     setSaveStatus(true)
+    setLoading(true)
   }
 
   return (
     <div className="container-main-exam">
       <h1 className="exam-header">Review Grade for {params.studentID}</h1>
-      <div className="preview-grade-section">
+      <div className="preview-grade-section container-scrollable">
 
         {loading ? <h1>Loading...</h1> :
           scoreDetails.map((obj, index) => {
-            return <>
-              <Container>
+            return <React.Fragment key={index}>
+              <Container className="" style={{width: "90%"}}>
                 <Row>
                   <Col className="col-7">
                     <QuestionBlock quesArray={questionArray[index]} index={index} gradeObj={obj}/>
                   </Col>
                   <Col className="col-5">
-                    <Table striped bordered hover size="sm" className="table table-hover table-fixed">
-                      <thead>
-                      <tr>
-                        <th>TestCase</th>
-                        <th>Expected</th>
-                        <th>Run</th>
-                        <th>Points</th>
-                        <th>Update</th>
-                      </tr>
-                      </thead>
-                      <tbody>
-                      <ResultSection gradeobj={obj}/>
-                      <tr>
-                        <th>Total</th>
-                        <td/>
-                        <td/>
-                        <th>{obj.pointsForQuestion}</th>
-                        <th><input  placeholder={"Update Point"} onChange={e=>changeAnswer(e, index)}/></th>
+                    <ResultSection gradeobj={obj} onSaving={updateQuestionValues} index={index}/>
 
-                      </tr>
-                      </tbody>
-                    </Table>
                   </Col>
                 </Row>
               </Container>
-            </>;
+            </React.Fragment>;
           })
         }
         <Container>
-          <Row className="col-lg-12">
-            <input placeholder="Add Comments here..." className="result-comment-section" onChange={ e =>setComment(e.target.value)}/>
-          </Row>
           <Row className="align-items-center">
             <Col className={"col-4"}>
-              <Button className="btn-info" onClick={updateScore}>Save Changes</Button>
+              <Button className="btn-info btn-lg" onClick={updateScore}>Save Changes</Button>
             </Col>
           </Row>
           {saveStatus &&

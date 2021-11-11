@@ -36,11 +36,11 @@ function LoginForm(props) {
 
   return (
   <Container className="container-fluid" style={{ "max-width": "1619px"}}>
-    <div className="container-main">
+    <div className="container-main-login">
       <div className="container-left">
         <img src={books} alt="books.jpg" />
       </div>
-      <div className="container-right">
+      <div className="container-right-login">
         <span className="login-header">Welcome to</span>
         <span className="login-header-big">Auto Grader!</span>
         <div className="divider">
