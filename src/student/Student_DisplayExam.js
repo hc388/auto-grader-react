@@ -3,6 +3,9 @@ import axios from "axios";
 import QuestionExamBox from "./QuestionExamBox";
 import update from "react-addons-update";
 import { Table, Container, Button } from "react-bootstrap";
+import { withRouter } from "react-router";
+import Row from "react-bootstrap/Row";
+
 
 
 class Student_DisplayExam extends React.Component {
@@ -11,6 +14,7 @@ class Student_DisplayExam extends React.Component {
     this.state = {
       questionArray: [],
       answerArray: [],
+      submission : false
     };
 
     this.onAnswering = this.onAnswering.bind(this);
@@ -23,9 +27,12 @@ class Student_DisplayExam extends React.Component {
     if (this.props.examId !== prevProps.examId) this.componentDidMount();
   }
 
+
   async componentDidMount() {
-    const params = { examId: this.props.examId };
-    console.log(this.props.examId);
+    console.log("Rendering params we get: ", this.props.match)
+    console.log("Rendering params we get: ", this.props.studentId)
+    const params = { examId: this.props.match.params.examName };
+    //console.log(this.props.examId);
     console.log(params);
     await axios
       .post(
@@ -54,26 +61,38 @@ class Student_DisplayExam extends React.Component {
   };
 
   onSubmit = async () => {
-    const res = await axios
-      .post(
-        "https://beta-0990913.herokuapp.com/api/submitExam.php",
-        JSON.stringify({
-          studentExamResponses: {
-            examId: this.props.examId,
-            studentId: this.props.studentId,
-            responsesArr: this.state.answerArray,
-          },
-        })
-      )
-      .then((data) => console.log(data));
 
-    this.submitStatus = true
+    console.log("On Clicking Submit you're sending: ",  JSON.stringify({
+            studentExamResponses: {
+              examId: this.props.match.params.examName,
+              studentId: this.props.studentId,
+              responsesArr: this.state.answerArray,
+            },
+          }))
+    // const res = await axios
+    //   .post(
+    //     "https://beta-0990913.herokuapp.com/api/submitExam.php",
+    //     JSON.stringify({
+    //       studentExamResponses: {
+    //         examId: this.props.examId,
+    //         studentId: this.props.studentId,
+    //         responsesArr: this.state.answerArray,
+    //       },
+    //     })
+    //   )
+    //   .then((data) => console.log(data));
+    alert("Your Submission was successfully received!")
+
+    this.setState({submission : true})
+    window.setTimeout(() => {
+      this.props.history.replace('/student');
+    }, 1000)
   };
 
   render() {
     return (
       <div className="container-main-exam">
-        <div className="exam-header"> Exam</div>
+        <div className="exam-header"> Exam {this.props.match.params.examName}</div>
         {this.state.questionArray.map((obj, index) => (
           <QuestionExamBox
             quesArray={obj}
@@ -86,10 +105,10 @@ class Student_DisplayExam extends React.Component {
         <Button className="btn-lg submit-exam-button" style={{ width: "550px", height: "100px", fontSize:"40px" }} onClick={this.onSubmit}>
           Submit Exam
         </Button>
-        {this.submitStatus && <h2>Exam was successfully submitted.</h2>}
+        {this.state.submission && <Row className="exam-submit-success mb-5">Exam was successfully submitted.</Row>}
       </div>
     );
   }
 }
 
-export default Student_DisplayExam;
+export default withRouter(Student_DisplayExam);

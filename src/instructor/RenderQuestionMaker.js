@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import ExamMaker from "../unused_components/ExamMaker";
 import Temp from "./Temp";
 
 const RenderQuestionMaker = (props) => {
+
+  const [inputList, setInputList] = useState([{}])
+
+
   return (
 
     <Container className="container-fluid d-flex flex-row w-100 container-main">

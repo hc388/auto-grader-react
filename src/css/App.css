@@ -83,6 +83,7 @@
   display: flex;
   flex-direction: column;
   background: #ffffff;
+  align-self: flex-start;
 }
 
 .container-right {
@@ -478,6 +479,9 @@ textarea {
   justify-content: space-between;
   align-items: center;
   border: 1px solid grey;
+  min-height: 200px;
+  font-weight: 500;
+  font-size: 40px !important;
 }
 
 .question-bottom {
@@ -514,7 +518,7 @@ textarea {
 
 
 .result-question-statement {
-  font-size: 25px;
+  font-size: 35px;
 }
 
 .result-question-bottom > textarea {
@@ -532,7 +536,7 @@ textarea {
 .result-points-statement {
   height: 70%;
   justify-items: flex-end;
-  font-size: 30px;
+  font-size: 40px;
 }
 
 .result-comment-section {
@@ -613,4 +617,12 @@ table > td {
 
 .process-button{
   transform: scale(1.5);
+}
+
+.exam-submit-success{
+  font-size: 40px;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 150px;
+  padding-bottom: 150px;
 }

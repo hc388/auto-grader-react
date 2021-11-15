@@ -65,6 +65,9 @@ function App() {
             {" "}
             <Student_ShowAllExams studentId={id} />{" "}
           </Route>
+          <Route exact path="/student/take-exam/:examName">
+            <Student_DisplayExam studentId={id} />
+          </Route>
           <Route exact path="/student/check-grades">
             <StudentCheckGrades studentId={id} />
           </Route>

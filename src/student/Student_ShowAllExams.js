@@ -31,6 +31,7 @@ const Student_ShowAllExams = (props) => {
       <h1 className="exam-header">Select Exam</h1>
       <div className="exam-list">
         {dataArray.map((obj) => (
+          <Link to={`/student/take-exam/${obj}`}>
           <button
             className="exam-list-item"
             key={obj}
@@ -38,10 +39,11 @@ const Student_ShowAllExams = (props) => {
           >
             {obj}
           </button>
+          </Link>
         ))}
-        {state && (
-          <Student_DisplayExam examId={key} studentId={props.studentId} />
-        )}
+        {/*{state && (*/}
+        {/*  <Student_DisplayExam examId={key} studentId={props.studentId} />*/}
+        {/*)}*/}
       </div>
     </div>
   );

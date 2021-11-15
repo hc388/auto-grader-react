@@ -65,6 +65,7 @@ const ResultSection = (props) => {
       let tempArr = pointScored
       await setPointScored([])
       let counter = 0
+      console.log("scoreObj receiced", scoreObj)
       for(const property in scoreObj) {
         console.log("scoreObj receiced", scoreObj)
         if(scoreObj[property] !== "")

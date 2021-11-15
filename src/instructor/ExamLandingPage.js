@@ -33,8 +33,11 @@ const ExamLandingPage = (props) => {
   const onAddingQuestion = quesNo => {
     console.log("Adding Question was called");
     let tempArr = selectedQuestions;
-    tempArr.push(quesNo);
-    setSelectedQuestions(oldArray => [...oldArray, quesNo]);
+    if(!tempArr.includes(quesNo)) {
+      tempArr.push(quesNo);
+      console.log(selectedQuestions, quesNo)
+      setSelectedQuestions(oldArray => [...oldArray, quesNo]);
+    }
   };
 
   const onRemovingQuestion = quesNo => {

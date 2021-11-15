@@ -122,8 +122,7 @@ const GradesByStudent = props => {
       testCasePoints: scoreObj,
       comment: comment
     }
-
-    await console.log(newObj)
+    console.log("GRADES BY STUDENT GOT: ", newObj)
     if (checkIfDuplicateEntryExists(newObj.questionNo) !== false){
       const indexValue = checkIfDuplicateEntryExists(newObj.questionNo)
       console.log(indexValue)
