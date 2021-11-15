@@ -12,6 +12,8 @@ const  StudentResultTable = ({ index, tests, expected, actual, points, total }) 
         {actual[index] === false && <td>False</td>}
         {actual[index] !== true && actual[index] !== false && <td>{actual[index]}</td>}
         <th>{points[index]}</th>
+        <th>{total[index]}</th>
+
       </tr>
 
 

@@ -9,6 +9,7 @@ const CheckGrades = (props) => {
   const [state, setState] = useState(false);
   const [key, setKey] = useState("");
   const [autoGradeStatus, setAutoGradeStatus] = useState(false)
+  const [ifError, updateIfError] = useState(false)
   let loading = true;
 
   useEffect(async () => {
@@ -21,12 +22,20 @@ const CheckGrades = (props) => {
   }, []);
 
   const autoGrade = async (obj) => {
+    console.log("Data being sent for autoGrade: ", JSON.stringify(
+      { examName : obj }
+    ))
     await axios
       .post(
         "https://beta-0990913.herokuapp.com/api/autoGradeByExamRC.php",
         JSON.stringify({ examName: obj })
       )
-      .then((res) => console.log(res));
+      .then((res) => {
+        console.log(res);
+        if (res.data.responseCode === 404)
+          updateIfError(true)
+        else updateIfError(false)
+      });
   };
 
   const GraderClickHandler = async (e, obj) => {
@@ -87,12 +96,14 @@ const CheckGrades = (props) => {
             </td>
           </tr>
 
+
         ))}
         </tbody>
         {console.log(key)}
         {state && <Link to={`/instructor/check-grades/${key}`}/>}
       </Table>
-      { autoGradeStatus && <text className="mt-5" style={{fontSize: "50px"}}>Exam Graded!</text>}
+      { !ifError && autoGradeStatus && <text className="mb-5 pb-5" style={{fontSize: "50px"}}>Exam Graded!</text>}
+      { ifError && autoGradeStatus && <text className="mb-5 pb-5" style={{fontSize: "50px"}}>Uh oh! There was an error grading the exam</text>}
     </div>
   );
 };

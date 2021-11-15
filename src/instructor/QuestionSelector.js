@@ -91,7 +91,7 @@ const QuestionSelector = props => {
                       </span>
                   </li>
                 </td>
-                <button className="btn-light" onClick={(e) => onButtonClick(e, obj.qid)}>Add Me</button>
+                <button className="btn-light" onClick={(e) => onButtonClick(e, obj.qid)}>Add</button>
               </tr>
             </Row>
           )}

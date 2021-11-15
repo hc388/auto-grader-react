@@ -87,6 +87,7 @@ const GradesByStudent = props => {
                         <th>Expected</th>
                         <th>Run</th>
                         <th>Points</th>
+                        <th>Max</th>
                       </tr>
                       </thead>
                       <tbody>
@@ -95,6 +96,7 @@ const GradesByStudent = props => {
                         <th>Total</th>
                         <td/>
                         <td/>
+                        <th>{obj.pointsForQuestion}</th>
                         <th>{obj.pointsForQuestion}</th>
                       </tr>
                       </tbody>
