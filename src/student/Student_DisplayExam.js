@@ -69,18 +69,18 @@ class Student_DisplayExam extends React.Component {
               responsesArr: this.state.answerArray,
             },
           }))
-    // const res = await axios
-    //   .post(
-    //     "https://beta-0990913.herokuapp.com/api/submitExam.php",
-    //     JSON.stringify({
-    //       studentExamResponses: {
-    //         examId: this.props.examId,
-    //         studentId: this.props.studentId,
-    //         responsesArr: this.state.answerArray,
-    //       },
-    //     })
-    //   )
-    //   .then((data) => console.log(data));
+    const res = await axios
+      .post(
+        "https://beta-0990913.herokuapp.com/api/submitExam.php",
+        JSON.stringify({
+          studentExamResponses: {
+            examId: this.props.match.params.examName,
+            studentId: this.props.studentId,
+            responsesArr: this.state.answerArray,
+          },
+        })
+      )
+      .then((data) => console.log(data));
     alert("Your Submission was successfully received!")
 
     this.setState({submission : true})
