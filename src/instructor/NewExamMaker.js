@@ -34,6 +34,11 @@ const NewExamMaker = (props) => {
       .then((data) => console.log(data));
   };
 
+  const onButtonClick = (e, quesNo) => {
+    e.preventDefault()
+    props.onDeleteClick(quesNo)
+  }
+
   return (
         <div style={{ "height": "80%", "margin-bottom": "100px" }}>
           {props.questionList.length === 0 ? <h3 className="text-black-50">Questions selected will be displayed here...</h3> : (
@@ -46,7 +51,8 @@ const NewExamMaker = (props) => {
             {props.questionList.map((obj) => {
               return (
                 <Row className="question-rows" key={obj.id}>
-                  <tr key={obj.qid} className="">
+                  <tr key={obj.qid} className="d-flex">
+                    <button className="btn-light" onClick={(e) => onButtonClick(e, obj.qid)}>Delete Me</button>
                     <td className="list-section">
                       <li class="list-item">{obj.questionString}
                         <span class="list-item-detail">

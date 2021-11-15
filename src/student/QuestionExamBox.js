@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Container, Row, Col } from "react-bootstrap";
 
 const QuestionExamBox = (props) => {
   const [answer, updateAnswer] = useState("");
@@ -11,13 +12,13 @@ const QuestionExamBox = (props) => {
   const textAreaRef = React.createRef();
 
   return (
-    <div className="question-segment">
-      <div className="question-top">
-        <h2 className="question-statement">
+    <Container className="question-segment">
+      <Row className="result-question-top">
+        <p className="col-md-9 result-question-statement mt-2">
           {props.quesArray.questionNo}. {props.quesArray.questionString}
-        </h2>
-        <h2 className="points-statement">{props.quesArray.points} Points</h2>
-      </div>
+        </p>
+        <h1 className="result-points-statement col-md-3">{props.quesArray.points} Points</h1>
+      </Row>
       <div className="question-bottom">
         <textarea
           ref={textAreaRef}
@@ -44,9 +45,9 @@ const QuestionExamBox = (props) => {
               }
             }
           }}
-        ></textarea>
+        />
       </div>
-    </div>
+    </Container>
   );
 };
 

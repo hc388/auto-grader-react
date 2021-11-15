@@ -15,6 +15,8 @@ class Student_DisplayExam extends React.Component {
 
     this.onAnswering = this.onAnswering.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+
+    this.submitStatus = false
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -64,6 +66,8 @@ class Student_DisplayExam extends React.Component {
         })
       )
       .then((data) => console.log(data));
+
+    this.submitStatus = true
   };
 
   render() {
@@ -82,6 +86,7 @@ class Student_DisplayExam extends React.Component {
         <Button className="btn-lg submit-exam-button" style={{ width: "550px", height: "100px", fontSize:"40px" }} onClick={this.onSubmit}>
           Submit Exam
         </Button>
+        {this.submitStatus && <h2>Exam was successfully submitted.</h2>}
       </div>
     );
   }

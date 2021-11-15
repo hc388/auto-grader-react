@@ -65,7 +65,7 @@
 }
 
 .container-main-exam {
-  width: 80%;
+  width: 90%;
   min-height: 1600px;
   height: 100%;
   background: #f4f4f4;
@@ -89,6 +89,7 @@
   width: 49%;
   max-height: 1518px;
   background: #ffffff;
+  align-self: flex-start;
   /*display: flex;*/
   /*flex-direction: column;*/
 }
@@ -452,7 +453,7 @@ textarea {
 }
 
 .question-segment {
-  width: 80%;
+  width: 90% !important;
   margin: 0px auto;
   padding-bottom: 50px;
 }
@@ -480,7 +481,7 @@ textarea {
 }
 
 .question-bottom {
-  height: 400px;
+  min-height: 600px;
   border: 1px solid grey;
   display: flex;
   align-items: center;
@@ -502,7 +503,15 @@ textarea {
 }
 .result-table{
   min-height: 350px;
+  font-size: 25px;
 }
+
+.result-table{
+  display: block;
+  overflow-y: hidden;    /* Trigger vertical scroll    */
+  overflow-x: auto;
+}
+
 
 .result-question-statement {
   font-size: 25px;
@@ -533,8 +542,8 @@ textarea {
 }
 
 #answer-box {
-  width: 80%;
-  height: 300px;
+  width: 90%;
+  height: 500px;
   margin-left: 20px;
   font-size: 30px;
 }
@@ -596,6 +605,7 @@ table > td {
   overflow-y: auto;    /* Trigger vertical scroll    */
   overflow-x: hidden;
 }
+
 
 .submit-exam-button{
   margin-bottom: 100px;

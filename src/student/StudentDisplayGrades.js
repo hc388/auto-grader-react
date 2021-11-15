@@ -66,13 +66,14 @@ const GradesByStudent = props => {
 
         {loading ? <h1>Loading...</h1> :
           scoreDetails.map((obj, index) => {
+            console.log("Before displaying comments: ", obj)
             return <>
               <Container className="w-75">
                 <Row>
-                  <Col className="col-7">
+                  <Col className="col-6">
                     <QuestionBlock quesArray={questionArray[index]} index={index} gradeObj={obj}/>
                   </Col>
-                  <Col className="col-5">
+                  <Col className="col-6">
                     <Table striped bordered hover size="lg" className="table table-hover table-fixed result-table" >
                       <thead>
                       <tr>
@@ -93,7 +94,7 @@ const GradesByStudent = props => {
                       </tbody>
                     </Table>
                     {obj.comments === null &&  <input readOnly={"No Comment"} value={"No Comment..."} className="col-md-11 result-comment-section" /> }
-                    {obj.comments !== null && <input readOnly={obj.comments} value={comment} className="col-md-11 result-comment-section" />}
+                    {obj.comments !== null && <input readOnly={obj.comments} value={obj.comments} className="col-md-11 result-comment-section" />}
                   </Col>
                 </Row>
               </Container>

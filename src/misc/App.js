@@ -23,6 +23,7 @@ import GradesByStudent from "../instructor/GradesByStudent";
 import StudentCheckGrades from "../student/StudentCheckGrades";
 import StudentDisplayGrades from "../student/StudentDisplayGrades";
 import Student_DisplayExam from "../student/Student_DisplayExam";
+import ExamLandingPage from "../instructor/ExamLandingPage";
 
 
 function App() {
@@ -42,7 +43,7 @@ function App() {
             <QuestionMaker instructorId={id} />
           </Route>
           <Route exact path="/instructor/exam-maker">
-            <Temp instructorId={id} />
+            <ExamLandingPage instructorId={id} />
           </Route>
           <Route exact path="/instructor/check-grades">
             <CheckGrades instructorId={id} />

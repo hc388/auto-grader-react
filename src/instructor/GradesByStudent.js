@@ -101,6 +101,19 @@ const GradesByStudent = props => {
     return false
   }
 
+  const onDeleteRequest = async (index) => {
+    if(checkIfDuplicateEntryExists(index+1) !== false){
+      const indexValue = checkIfDuplicateEntryExists(index+1)
+      let holdingArray = []
+      holdingArray = updatedScore
+      console.log("HoldingArray looks like", holdingArray)
+      holdingArray.splice(indexValue-1, 1);
+      await setUpdatedScore(holdingArray)
+      setLoading(true)
+
+    }
+  }
+
 
   const updateQuestionValues = async (index, totalScore,  scoreObj, comment) => {
     let newObj = {
@@ -134,6 +147,7 @@ const GradesByStudent = props => {
   const updateScore = async () => {
     //console.log(updatedScore)
 
+
     console.log(JSON.stringify({
       updateRequest: {
         examId: params.examName,
@@ -153,6 +167,10 @@ const GradesByStudent = props => {
     setLoading(true)
   }
 
+  const cancelScore = async () => {
+    setUpdatedScore([])
+  }
+
   return (
     <div className="container-main-exam">
       <h1 className="exam-header">Review Grade for {params.studentID}</h1>
@@ -163,11 +181,11 @@ const GradesByStudent = props => {
             return <React.Fragment key={index}>
               <Container className="" style={{width: "90%"}}>
                 <Row>
-                  <Col className="col-7">
+                  <Col className="col-6">
                     <QuestionBlock quesArray={questionArray[index]} index={index} gradeObj={obj}/>
                   </Col>
-                  <Col className="col-5">
-                    <ResultSection gradeobj={obj} onSaving={updateQuestionValues} index={index}/>
+                  <Col className="col-6">
+                    <ResultSection quesArray={questionArray[index]} gradeobj={obj} onSaving={updateQuestionValues} onDeleting={onDeleteRequest} index={index}/>
 
                   </Col>
                 </Row>
@@ -176,9 +194,12 @@ const GradesByStudent = props => {
           })
         }
         <Container>
-          <Row className="align-items-center">
-            <Col className={"col-4"}>
-              <Button className="btn-info btn-lg" onClick={updateScore}>Save Changes</Button>
+          <Row className="d-flex justify-content-center align-items-center mb-5 mt-5">
+            <Col className="col-4">
+              <Button className="btn-info btn-lg" style={{transform:"scale(2)"}}  onClick={updateScore}>Save Changes</Button>
+            </Col>
+            <Col className="col-4">
+              <Button className="btn-danger btn-lg" style={{transform:"scale(2)"}}  onClick={cancelScore}>Cancel Changes</Button>
             </Col>
           </Row>
           {saveStatus &&

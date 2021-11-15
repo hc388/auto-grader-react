@@ -49,6 +49,26 @@ function QuestionMaker(props) {
     forUsed ? questionToAdd.for_used = 1 : questionToAdd.for_used = 0;
     let response;
     if (questionString !== "") {
+      console.log("Data You're Sending: ", JSON.stringify({
+        questionToAdd: {
+          questionString: questionString,
+          difficulty: difficulty,
+          topic: topic,
+          testCases: {
+            [testcase1]: case1Answer,
+            [testcase2]: case2Answer,
+            [testcase3]: case3Answer,
+            [testcase4]: case4Answer,
+            [testcase5]: case5Answer,
+
+          },
+          while_used: questionToAdd.while_used,
+          recursion_used: questionToAdd.recursion_used,
+          for_used: questionToAdd.for_used
+
+        }
+      }))
+
       response = await Axios.post("https://beta-0990913.herokuapp.com/api/addQuestionToBankRC.php", JSON.stringify({
         questionToAdd: {
           questionString: questionString,
@@ -59,7 +79,7 @@ function QuestionMaker(props) {
             [testcase2]: case2Answer,
             [testcase3]: case3Answer,
             [testcase4]: case4Answer,
-            [testcase5]: case4Answer,
+            [testcase5]: case5Answer,
 
           },
           while_used: questionToAdd.while_used,
@@ -81,6 +101,8 @@ function QuestionMaker(props) {
       updateTestcase1={updateTestcase1}
       updateTestcase2={updateTestcase2}
       updateTestcase3={updateTestcase3}
+      updateTestcase4={updateTestcase4}
+      updateTestcase5={updateTestcase5}
       updateCase1Answer={updateCase1Answer}
       updateCase2Answer={updateCase2Answer}
       updateCase3Answer={updateCase3Answer}

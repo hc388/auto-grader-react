@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
-import * as SourceAPI from "../misc/SourceAPI";
-import FilterSelectedQuestions from "./FilterSelectedQuestions";
-import ShowAllQuestions from "./ShowAllQuestions";
+import { Container, Row, Col } from "react-bootstrap";
 import Axios from "axios";
+import QuestionSelector from "./QuestionSelector";
+import QuestionDisplayer from "./QuestionDisplayer";
+import FilterSelectedQuestions from "./FilterSelectedQuestions";
 
-const Temp = (props) => {
+const ExamLandingPage = (props) => {
   const [questions, setQuestions] = useState([]);
   const [allQuestions, setAllQuestions] = useState([]);
+  const [selectedQuestions, setSelectedQuestions] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -25,7 +27,22 @@ const Temp = (props) => {
 
     fetchData();
 
-  }, [props.submitStatus]);
+  }, []);
+
+
+  const onAddingQuestion = quesNo => {
+    console.log("Adding Question was called");
+    let tempArr = selectedQuestions;
+    tempArr.push(quesNo);
+    setSelectedQuestions(oldArray => [...oldArray, quesNo]);
+  };
+
+  const onRemovingQuestion = quesNo => {
+    console.log("Came to Removing question");
+    let tempArr = selectedQuestions.filter(item => item !== quesNo);
+    setSelectedQuestions(tempArr);
+
+  };
 
   const updateQuestionsByTopic = (type, key) => {
     console.log("Updater got: ", type, key);
@@ -43,6 +60,10 @@ const Temp = (props) => {
   const resetFilters = () => {
     setQuestions(allQuestions);
   };
+
+  const handleDeselect = () => {
+    setSelectedQuestions([])
+  }
 //obj[topic].toUpperCase() === topic)
 
   const totalUpdate = (topic, diff) => {
@@ -62,17 +83,18 @@ const Temp = (props) => {
   };
 
   return (
-    <>
-
-      {loading === false && (props.hasOwnProperty("type") ?
-        <ShowAllQuestions resetter={resetFilters} allQuestionList={allQuestions} questionList={questions}
-                          updateByTopic={updateQuestionsByTopic} updateByDiff={updateQuestionsByDiff}
-                          updater={totalUpdate}/> :
-        <FilterSelectedQuestions resetter={resetFilters} allQuestionList={allQuestions} questionList={questions}
-                                 updateByTopic={updateQuestionsByTopic} updateByDiff={updateQuestionsByDiff}
-                                 updater={totalUpdate} showSelected={handleSelectedButton}/>)}
-    </>
+    <Container className="container-fluid d-flex flex-row w-100 container-main">
+      <QuestionSelector questionList={questions} onAddButtonClick={onAddingQuestion} resetter={resetFilters}
+                        allQuestionList={allQuestions}
+                        updateByTopic={updateQuestionsByTopic} updateByDiff={updateQuestionsByDiff}
+                        updater={totalUpdate} showSelected={handleSelectedButton} deSelector={handleDeselect}/>
+      <QuestionDisplayer questionList={questions} selectedList={selectedQuestions} onDeleteClick={onRemovingQuestion}
+                         resetter={resetFilters} allQuestionList={allQuestions}
+                         updateByTopic={updateQuestionsByTopic} updateByDiff={updateQuestionsByDiff}
+                         updater={totalUpdate} showSelected={handleSelectedButton}/>
+    </Container>
   );
+
 };
 
-export default Temp;
+export default ExamLandingPage;

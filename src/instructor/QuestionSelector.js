@@ -1,36 +1,24 @@
-import React, { useState } from "react";
-import { Col, Row, Grid } from "react-flexbox-grid";
-import NewExamMaker from "./NewExamMaker";
-import { Table, Container, Button } from "react-bootstrap";
-import Temp from "./Temp";
+import React, {useState, useEffect} from 'react'
+import { Button, Container, Table } from "react-bootstrap";
+import { Col, Row } from "react-flexbox-grid";
 import FilterTopicOptions from "./FilterTopicOptions";
 
-const FilterSelectedQuestions = (props) => {
-  const list = props.questionList;
-  console.log("Filter got", list);
+const QuestionSelector = props => {
 
-  const [checkList, setCheckList] = useState([]);
-  const [checkedState, setCheckedState] = useState(
-    new Array(list.length).fill(false));
+  const [selectedList, updateSelectedList] = useState([])
+  const list = props.questionList
   const [difficulty, setDifficulty] = useState("ALL");
   const [topic, setTopic] = useState(null);
 
-  const filterSelection = (e, item) => {
-    console.log("CheckList looks like: ", checkList)
 
-    if (checkList.includes(item)) {
-      let newArray = checkList.filter(obj => obj !== item);
-      setCheckList(newArray);
-    } else {
-      setCheckList(oldArray => [...oldArray, item]);
-    }
-  };
 
-  const onHandleChange = (e, position, obj) => {
-    filterSelection(e, obj);
-    const newArray = checkedState.map((item, index) => index === position ? !item : item);
-    setCheckedState(newArray);
-  };
+  const onButtonClick = (e, quesNo) => {
+    e.preventDefault()
+    let tempArr = selectedList
+    tempArr.push(quesNo)
+    updateSelectedList(oldArray => [...oldArray, quesNo])
+    props.onAddButtonClick(quesNo)
+  }
 
   const handleReset = (e) => {
     props.resetter();
@@ -38,10 +26,13 @@ const FilterSelectedQuestions = (props) => {
     setDifficulty("ALL");
   };
 
-  const handleDeselect = (e) => {
-    setCheckedState(new Array(list.length).fill(false));
-    handleReset(e)
-  };
+  const handleDeselect = e => {
+    props.resetter();
+    props.deSelector();
+    setTopic(null);
+    setDifficulty("ALL");
+
+  }
 
   const handleDifficultyChange = (e) => {
     props.updater(topic, e.target.value);
@@ -49,12 +40,9 @@ const FilterSelectedQuestions = (props) => {
     setDifficulty(e.target.value);
   };
 
-  const handleSelectedButton = (e) => {
-    props.showSelected(checkList);
-  };
 
-  return (
-    <Container className="container-fluid d-flex flex-row w-100 container-main">
+
+  return(
       <Container
         className="container-fluid d-flex flex-column justify-content-center align-items-center  col-md-5 h-100 container-left">
 
@@ -66,10 +54,10 @@ const FilterSelectedQuestions = (props) => {
           {/*<FilterDifficultyOptions questionList={props.questionList} updater={props.updater} allQuestionList={props.allQuestionList}/>*/}
         </Row>
         <Row className="d-flex flex-row col-md-9 align-items-center" style={{ marginBottom: "5%" }}>
-          <Col className="col-md-6">
-            <Button className="btn-xl" onClick={e => handleSelectedButton(e)}>Show Selected</Button>
-          </Col>
-          <Col className="col-md-6">
+          {/*<Col className="col-md-6">*/}
+          {/*  <Button className="btn-xl" onClick={e => handleSelectedButton(e)}>Show Selected</Button>*/}
+          {/*</Col>*/}
+          <Col className="col-md-12">
             <label className="col-md-8" htmlFor="user">
               <h3>Question Difficulty</h3>
             </label>
@@ -94,10 +82,7 @@ const FilterSelectedQuestions = (props) => {
           <tbody>
 
           {list.map((obj, index) => <Row className="questions-rows" key={obj.id}>
-              <tr>
-                <th style={{ "width": "50px" }}><input type={"Checkbox"} className="largerCheckbox" name={obj}
-                                                       checked={checkedState[index]}
-                                                       onChange={e => onHandleChange(e, index, obj)}/></th>
+              <tr className="d-flex">
                 <td className="list-section">
                   <li class="list-item">{obj.questionString}
                     <span class="list-item-detail">
@@ -106,6 +91,7 @@ const FilterSelectedQuestions = (props) => {
                       </span>
                   </li>
                 </td>
+                <button className="btn-light" onClick={(e) => onButtonClick(e, obj.qid)}>Add Me</button>
               </tr>
             </Row>
           )}
@@ -113,13 +99,7 @@ const FilterSelectedQuestions = (props) => {
           </tbody>
         </Table>
       </Container>
-      <Container className="container d-flex flex-column align-items-lg-center col-md-5 h-100 container-right">
-        <Row className="greet-msg m-3">Make an Exam</Row>
+  )
+}
 
-        <NewExamMaker questionList={checkList}/>
-      </Container>
-    </Container>
-  );
-};
-
-export default FilterSelectedQuestions;
+export default QuestionSelector
