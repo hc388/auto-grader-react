@@ -2,11 +2,9 @@ import React, { useState } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import ExamMaker from "../unused_components/ExamMaker";
 import Temp from "./Temp";
+import TestCaseGenerator from "./TestCaseGenerator";
 
 const RenderQuestionMaker = (props) => {
-
-  const [inputList, setInputList] = useState([{}])
-
 
   return (
 
@@ -24,67 +22,8 @@ const RenderQuestionMaker = (props) => {
         </Row>
         <Row className="container-testcase d-flex justify-content-center m-3">
           <Row className="greet-msg m-3 justify-content-center align-items-center">TestCases</Row>
-          <span className="testcase">
-               TestCase #1{" "}
-            <input
-              className="first-input"
-              type="text"
-              onChange={(e) => props.updateTestcase1(e.target.value)}
-            />{" "}
-            <input
-              className="second-input"
-              type="text"
-              onChange={(e) => props.updateCase1Answer(e.target.value)}
-            />
-            </span>
-          <span className="testcase">
-              TestCase #2{" "}
-            <input
-              type="text"
-              onChange={(e) => props.updateTestcase2(e.target.value)}
-            />{" "}
-            <input
-              className="second-input"
-              type="text"
-              onChange={(e) => props.updateCase2Answer(e.target.value)}
-            />
-            </span>
-          <span className="testcase">
-              TestCase #3{" "}
-            <input
-              type="text"
-              onChange={(e) => props.updateTestcase3(e.target.value)}
-            />{" "}
-            <input
-              className="second-input"
-              type="text"
-              onChange={(e) => props.updateCase3Answer(e.target.value)}
-            />
-            </span>
-          <span className="testcase">
-              TestCase #4{" "}
-            <input
-              type="text"
-              onChange={(e) => props.updateTestcase4(e.target.value)}
-            />{" "}
-            <input
-              className="second-input"
-              type="text"
-              onChange={(e) => props.updateCase4Answer(e.target.value)}
-            />
-            </span>
-          <span className="testcase">
-              TestCase #5{" "}
-            <input
-              type="text"
-              onChange={(e) => props.updateTestcase5(e.target.value)}
-            />{" "}
-            <input
-              className="second-input"
-              type="text"
-              onChange={(e) => props.updateCase5Answer(e.target.value)}
-            />
-            </span>
+          <TestCaseGenerator updateTestCase={props.updateTestCase}/>
+
 
         </Row>
         <Row className="d-flex flex-col col-md-9 justify-content-around m-3 flex-wrap">
@@ -132,7 +71,7 @@ const RenderQuestionMaker = (props) => {
 
         </Row>
         <Button type="submit" className="submit-question-btn mb-5" onClick={e => props.onSubmitHandler(e)}>Submit Question</Button>
-        {props.submitStatus ? <h3 className="mb-5">!Question Submitted.</h3> : null}
+        {props.submitStatus ? <h3 className="mb-5">Your question was submitted.</h3> : null}
       </Container>
       <Container className="container d-flex flex-column col-lg-5 h-100 align-self-start container-right">
         <Row className="greet-msg m-3 justify-content-center">Questions In Your Library</Row>

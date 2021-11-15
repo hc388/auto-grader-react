@@ -123,6 +123,7 @@ const GradesByStudent = props => {
       comment: comment
     }
     console.log("GRADES BY STUDENT GOT: ", newObj)
+
     if (checkIfDuplicateEntryExists(newObj.questionNo) !== false){
       const indexValue = checkIfDuplicateEntryExists(newObj.questionNo)
       console.log(indexValue)

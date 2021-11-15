@@ -95,6 +95,16 @@
   /*flex-direction: column;*/
 }
 
+.container-left-home {
+  width: 49%;
+  min-height: 90%;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  align-self: center;
+}
+
+
 .container-right-login {
   width: 40%;
   max-height: 1518px;
@@ -194,13 +204,23 @@ input.largerCheckbox{
 
 .testcase{
   font-weight: 700;
+
+  justify-content: flex-end;
 }
 
+.testcaseboxes{
+  justify-items: center;
+}
 .submit-question-btn{
   transform: scale(2);
 }
 
-.testcase > input {
+.btn-box{
+  align-self: center;
+  margin-left: 0px;
+}
+
+.testcaseboxes > input {
   height: 70px;
   font-size: 30px;
   width: 250px;

@@ -9,6 +9,7 @@ import StudentResultSection from "./StudentResultSection";
 const GradesByStudent = props => {
 
   const [loading, setLoading] = useState(true);
+  const [isGraded, setIsGraded] = useState(false)
   const [scoreDetails, setScoreDetails] = useState([]);
   const [questionArray, setQuestionArray] = useState([]);
   const [answerArray, setAnswerArray] = useState([]);
@@ -21,14 +22,19 @@ const GradesByStudent = props => {
 
   useEffect(async () => {
     await getExamLayout(params.examName);
-    const res = await axios.post("https://beta-0990913.herokuapp.com/api/seeExamAndGradeByStudentRC.php", JSON.stringify({
+    const res = await axios.post("https://beta-0990913.herokuapp.com/api/seeExamAndGradeByStudentRCStudentSide.php", JSON.stringify({
       examId: params.examName, studentName: params.studentID
     }))
       .then(resp => {
-        console.log(resp);
-        setScoreDetails(resp.data.studentScoreDetails);
-        setLoading(false);
-        updateInitialAnswers(resp);
+        if(resp.data.responseCode === 404)
+          setIsGraded(false)
+        else {
+          console.log(resp);
+          setScoreDetails(resp.data.studentScoreDetails);
+          setLoading(false);
+          updateInitialAnswers(resp);
+          setIsGraded(true)
+        }
       });
 
 
@@ -64,7 +70,7 @@ const GradesByStudent = props => {
       <h1 className="exam-header">Review Grade for {params.studentID}</h1>
       <div className="preview-grade-section container-scrollable">
 
-        {loading ? <h1>Loading...</h1> :
+        {!isGraded ? <h1>Your Exam is still being graded...Please Check back in a while</h1> :
           scoreDetails.map((obj, index) => {
             console.log("Before displaying comments: ", obj)
             return <>

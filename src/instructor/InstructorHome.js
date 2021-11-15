@@ -8,7 +8,7 @@ function InstructorHome(props) {
 
   return (
     <div className="container-main-login">
-      <div className="container-left">
+      <div className="container-left-home">
         <div className="greet-msg">Hi, Instructor!</div>
         <div className="container-status-box">
           <h1>You have no tasks pending.</h1>

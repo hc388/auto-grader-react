@@ -6,6 +6,7 @@ const NewExamMaker = (props) => {
   const [examName, setExamName] = useState("");
   const [status, setStatus] = useState(0);
   const [scoreObject, setScoreObject] = useState({});
+  const [doesExist, setDoesExist] = useState(false)
 
   const onInputChange = (e, id) => {
     setScoreObject({
@@ -20,7 +21,6 @@ const NewExamMaker = (props) => {
       .reduce((res, key) => Object.assign(res, { [key]: obj[key] }), {});
 
   const handleSubmit = async (e) => {
-    setStatus(1);
     console.log("ScoreObj looks like: ", scoreObject, "for exam: ", examName);
     let filtered = Object.filter(scoreObject, (point) => point > 0);
     const res = await axios
@@ -31,7 +31,17 @@ const NewExamMaker = (props) => {
           questionPointsMap: filtered
         })
       )
-      .then((data) => console.log(data));
+      .then((data) => {
+        console.log(data);
+        if (data.data.responseCode === 404) {
+          setDoesExist(true)
+          console.log("Exam Name Already exists")
+          setTimeout(() => { setDoesExist(false)
+          }, 2000)
+        }
+        else
+          setStatus(1);
+      });
   };
 
   const onButtonClick = (e, quesNo) => {
@@ -88,7 +98,8 @@ const NewExamMaker = (props) => {
           <Button className="btn-lg mt-3 process-button" onClick={handleSubmit}>
             Submit Exam
           </Button>
-          {status === 1 && <h2 className="mt-5">Exam Submitted</h2>}
+            {doesExist && <h2 className="mt-5">Exam Name Already Exists. Please enter a different name.</h2>}
+          {!doesExist && status === 1 && <h2 className="mt-5">Exam Submitted</h2>}
         </>
             )}
         </div>

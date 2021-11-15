@@ -40,7 +40,13 @@ const CheckGrades = (props) => {
     setKey(obj);
     setState(true);
   };
+  const gradeReleaseHandler = async (e, obj) => {
+  await axios.post(
+    "https://beta-0990913.herokuapp.com/api/releaseGradesForExam.php",
+    JSON.stringify({ examName: obj })
+  )
 
+  }
 
   return (
     <div className="container-main-exam d-flex align-items-center flex-column">
@@ -49,7 +55,7 @@ const CheckGrades = (props) => {
         <tbody>
         {dataArray.map((obj) => (
           <tr key={`div${obj}`}>
-            <td className="th-lg" style={{"fontSize" : "40px"}}>{obj}</td>
+            <td className="th-lg" style={{"fontSize" : "40px", fontWeight: "900"}}>{obj}</td>
             <td>
               <Link to={`/instructor/check-grades/:${obj}`}>
 
@@ -69,6 +75,15 @@ const CheckGrades = (props) => {
             >
               Run AutoGrade
             </button>
+            </td>
+            <td>
+              <button
+                className="exam-list-item"
+                key={obj}
+                onClick={(e) => gradeReleaseHandler(e, obj)}
+              >
+                Release Grades
+              </button>
             </td>
           </tr>
 
