@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import LoginForm from "../login/LoginForm";
 import NewApiCall from "./NewApiCall";
 import { Link, Redirect } from "react-router-dom";
+import Auth from "../misc/Auth";
 
 function HomePage(props) {
   const [userName, updateUser] = useState("");
@@ -13,7 +14,7 @@ function HomePage(props) {
   const [id, updateId] = useState("");
   const [status, updateStatus] = useState(0);
   const [apiStatus, updateApiStatus] = useState(0);
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
 
   let makeCallToApi = 0;
 
@@ -32,14 +33,20 @@ function HomePage(props) {
     updateRole(newDetails.role);
     updateId(newDetails.id);
     props.updateAppId(newDetails.id);
-    const obj = {id: newDetails.id}
-    localStorage.setItem("personId", JSON.stringify(obj))
+    const obj = {
+      isLoggedIn: true,
+      id: newDetails.id,
+      role : newDetails.role
+    };
+    localStorage.setItem("login", JSON.stringify(obj));
   };
   let validateLogin = (user, pass) => {
     updateUser(user);
     updatePass(pass);
+    Auth.login(() => {})
     updateApiStatus(1);
-    setLoading(false)
+
+    setLoading(false);
   };
   let rollBackApiStatus = () => {
     updateApiStatus(0);
@@ -60,9 +67,9 @@ function HomePage(props) {
           stopper={rollBackApiStatus}
         />
       )}
-      {role === "Instructor" && <Redirect to="/instructor" />}
-      {role === "Student" && 
-        <Redirect to="/student" />
+      {role === "Instructor" && <Redirect to="/instructor"/>}
+      {role === "Student" &&
+      <Redirect to="/student"/>
       }
     </div>
   );

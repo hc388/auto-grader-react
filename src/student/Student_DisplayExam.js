@@ -46,6 +46,7 @@ class Student_DisplayExam extends React.Component {
           answerArray: new Array(res.data.studentExamArray.length),
         });
       });
+
   }
 
   onAnswering = (answer, index) => {

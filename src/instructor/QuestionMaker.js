@@ -1,23 +1,38 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import RenderQuestionMaker from "./RenderQuestionMaker";
 import * as SourceAPI from "../misc/SourceAPI";
 import Axios from "axios";
+import Auth from "../misc/Auth";
 
 function QuestionMaker(props) {
   const [questionString, updateQuestion] = useState("");
-  const [testCase, updateTestCase] = useState({})
+  const [testCase, updateTestCase] = useState({});
   const [topic, updateQuestionType] = useState("");
   const [difficulty, updateDifficulty] = useState("");
   const [whileUsed, setWhileUsed] = useState(false);
   const [recursionUsed, setRecursionUsed] = useState(false);
   const [forUsed, setForUsed] = useState(false);
-  const [isSubmitted, setSubmitted] = useState(false)
+  const [isSubmitted, setSubmitted] = useState(false);
+  const [loginStatus, setLoginStatus] = useState(false);
+  const [role, setRole] = useState("null");
 
   const difficultyUpdate = (newDiff) => {
     console.log("New difficulty is: ", newDiff);
     updateDifficulty(newDiff);
   };
 
+  const loginErrorMessage = <div><h1>You are not logged in</h1> <br/>
+    <h1>Please Logout And Try Logging back in</h1></div>;
+
+  const roleErrorMessage = <div><h1>You are not Authorized to view this</h1> <br/>
+    <h1>Please Logout And Try Logging back in</h1></div>;
+
+
+  useEffect(() => {
+    setLoginStatus(Auth.isAuthenticated);
+    if (Auth.isAuthenticated)
+      setRole(Auth.getRole);
+  }, [loginStatus, role]);
 
   const onSubmitHandler = async function(e) {
     e.preventDefault();
@@ -38,7 +53,7 @@ function QuestionMaker(props) {
           for_used: questionToAdd.for_used
 
         }
-      }))
+      }));
 
 
       response = await Axios.post("https://beta-0990913.herokuapp.com/api/addQuestionToBankRC.php", JSON.stringify({
@@ -56,27 +71,46 @@ function QuestionMaker(props) {
     }
     console.log("After calling the API: ", response);
 
-    setSubmitted(true)
+    setSubmitted(true);
 
-    setTimeout(() => {setSubmitted(false)} , 8000 )
+    setTimeout(() => {
+      setSubmitted(false);
+    }, 8000);
 
   };
 
   return (
-    <RenderQuestionMaker
-      updateQuestion={updateQuestion}
-      updateTestCase={updateTestCase}
-      whileState={whileUsed}
-      setWhile={setWhileUsed}
-      forState={forUsed}
-      setFor={setForUsed}
-      recursionState={recursionUsed}
-      setRecursion={setRecursionUsed}
-      updateDifficulty={difficultyUpdate}
-      updateQuestionType={updateQuestionType}
-      onSubmitHandler={onSubmitHandler}
-      submitStatus = {isSubmitted}
-    />
+    <React.Fragment>
+      {loginStatus ?
+        <React.Fragment>
+          {role === "Instructor" ?
+            <RenderQuestionMaker
+              updateQuestion={updateQuestion}
+              updateTestCase={updateTestCase}
+              whileState={whileUsed}
+              setWhile={setWhileUsed}
+              forState={forUsed}
+              setFor={setForUsed}
+              recursionState={recursionUsed}
+              setRecursion={setRecursionUsed}
+              updateDifficulty={difficultyUpdate}
+              updateQuestionType={updateQuestionType}
+              onSubmitHandler={onSubmitHandler}
+              submitStatus={isSubmitted}
+            />
+            :
+            <>
+              {console.log(role)}
+              {roleErrorMessage}
+            </>
+          }
+        </React.Fragment>
+        :
+        <React.Fragment>
+          {loginErrorMessage}
+        </React.Fragment>
+      }
+    </React.Fragment>
   );
 }
 

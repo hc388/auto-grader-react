@@ -4,12 +4,16 @@ import Axios from "axios";
 import QuestionSelector from "./QuestionSelector";
 import QuestionDisplayer from "./QuestionDisplayer";
 import FilterSelectedQuestions from "./FilterSelectedQuestions";
+import Auth from "../misc/Auth";
 
 const ExamLandingPage = (props) => {
   const [questions, setQuestions] = useState([]);
   const [allQuestions, setAllQuestions] = useState([]);
   const [selectedQuestions, setSelectedQuestions] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [loginStatus, setLoginStatus] = useState(false);
+  const [role, setRole] = useState("null");
+
 
   useEffect(() => {
     setLoading(true);
@@ -22,20 +26,23 @@ const ExamLandingPage = (props) => {
       let newArray = [];
       response.data.questions.map(obj => newArray.push(obj.questionString));
       console.log(newArray);
+      setLoginStatus(Auth.isAuthenticated);
+      if (Auth.isAuthenticated)
+        setRole(Auth.getRole);
       setLoading(false);
     }
 
     fetchData();
 
-  }, []);
+  }, [loginStatus, role]);
 
 
   const onAddingQuestion = quesNo => {
     console.log("Adding Question was called");
     let tempArr = selectedQuestions;
-    if(!tempArr.includes(quesNo)) {
+    if (!tempArr.includes(quesNo)) {
       tempArr.push(quesNo);
-      console.log(selectedQuestions, quesNo)
+      console.log(selectedQuestions, quesNo);
       setSelectedQuestions(oldArray => [...oldArray, quesNo]);
     }
   };
@@ -64,9 +71,15 @@ const ExamLandingPage = (props) => {
     setQuestions(allQuestions);
   };
 
+  const loginErrorMessage = <div><h1>You are not logged in</h1> <br/>
+    <h1>Please Logout And Try Logging back in</h1></div>;
+
+  const roleErrorMessage = <div><h1>You are not Authorized to view this</h1> <br/>
+    <h1>Please Logout And Try Logging back in</h1></div>;
+
   const handleDeselect = () => {
-    setSelectedQuestions([])
-  }
+    setSelectedQuestions([]);
+  };
 //obj[topic].toUpperCase() === topic)
 
   const totalUpdate = (topic, diff) => {
@@ -87,14 +100,31 @@ const ExamLandingPage = (props) => {
 
   return (
     <Container className="container-fluid d-flex flex-row w-100 container-main">
-      <QuestionSelector questionList={questions} onAddButtonClick={onAddingQuestion} resetter={resetFilters}
-                        allQuestionList={allQuestions}
-                        updateByTopic={updateQuestionsByTopic} updateByDiff={updateQuestionsByDiff}
-                        updater={totalUpdate} showSelected={handleSelectedButton} deSelector={handleDeselect}/>
-      <QuestionDisplayer questionList={questions} selectedList={selectedQuestions} onDeleteClick={onRemovingQuestion}
-                         resetter={resetFilters} allQuestionList={allQuestions}
-                         updateByTopic={updateQuestionsByTopic} updateByDiff={updateQuestionsByDiff}
-                         updater={totalUpdate} showSelected={handleSelectedButton}/>
+      {loginStatus ?
+        <React.Fragment>
+          {role === "Instructor" ?
+            <React.Fragment>
+              <QuestionSelector questionList={questions} onAddButtonClick={onAddingQuestion} resetter={resetFilters}
+                                allQuestionList={allQuestions}
+                                updateByTopic={updateQuestionsByTopic} updateByDiff={updateQuestionsByDiff}
+                                updater={totalUpdate} showSelected={handleSelectedButton} deSelector={handleDeselect}/>
+              <QuestionDisplayer questionList={questions} selectedList={selectedQuestions}
+                                 onDeleteClick={onRemovingQuestion}
+                                 resetter={resetFilters} allQuestionList={allQuestions}
+                                 updateByTopic={updateQuestionsByTopic} updateByDiff={updateQuestionsByDiff}
+                                 updater={totalUpdate} showSelected={handleSelectedButton}/>
+            </React.Fragment>
+            :
+            <>
+              {roleErrorMessage}
+            </>
+          }
+
+        </React.Fragment> :
+        <React.Fragment>
+          {loginErrorMessage}
+        </React.Fragment>
+      }
     </Container>
   );
 

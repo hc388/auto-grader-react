@@ -50,7 +50,7 @@ const NewExamMaker = (props) => {
   }
 
   return (
-        <div style={{ "height": "80%", "margin-bottom": "100px" }}>
+        <div style={{ "height": "80%", "margin-bottom": "100px" }} className="container-scrollable">
           {props.questionList.length === 0 ? <h3 className="text-black-50">Questions selected will be displayed here...</h3> : (
           <>
           <Table>
@@ -62,7 +62,7 @@ const NewExamMaker = (props) => {
               return (
                 <Row className="question-rows" key={obj.id}>
                   <tr key={obj.qid} className="d-flex">
-                    <button className="btn-light" onClick={(e) => onButtonClick(e, obj.qid)}>Delete Me</button>
+                    <button className="btn-light" onClick={(e) => onButtonClick(e, obj.qid)}>Delete</button>
                     <td className="list-section">
                       <li class="list-item">{obj.questionString}
                         <span class="list-item-detail">

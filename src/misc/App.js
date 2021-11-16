@@ -24,6 +24,8 @@ import StudentCheckGrades from "../student/StudentCheckGrades";
 import StudentDisplayGrades from "../student/StudentDisplayGrades";
 import Student_DisplayExam from "../student/Student_DisplayExam";
 import ExamLandingPage from "../instructor/ExamLandingPage";
+import { ProtectedRoute } from "./ProtectedRoute";
+
 
 
 function App() {
@@ -36,9 +38,9 @@ function App() {
           <Route exact path="/">
             <HomePage updateAppId={updateId} />{" "}
           </Route>
-          <Route exact path="/instructor">
+          <ProtectedRoute exact path="/instructor">
             <InstructorHome instructorId={id} />
-          </Route>
+          </ProtectedRoute>
           <Route exact path="/instructor/question-maker">
             <QuestionMaker instructorId={id} />
           </Route>
