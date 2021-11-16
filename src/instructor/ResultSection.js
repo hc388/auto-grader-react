@@ -54,9 +54,13 @@ const ResultSection = (props) => {
     if (overFlow)
       setOverFlow(false);
     let tempObj = scoreObj
+    if(isNaN(val)) {
+      val = pointScored[index]
+      console.log("Since I found a NAN I'm changing it to", val)
+    }
     tempObj = {
       ...tempObj,
-      [testCaseHeader[index]]: parseInt(val)
+      [testCaseHeader[index]]: parseFloat(val)
     }
     console.log("After updating the object looks lke: ", tempObj)
     setScoreObj(tempObj)
@@ -94,23 +98,15 @@ const ResultSection = (props) => {
       console.log("Points object is", pointScored)
       console.log("Original Object is: ", originalObj)
       for(const property in scoreObj) {
-        if(scoreObj[property] !== "")
+        if(scoreObj[property] !== "" || !isNaN(scoreObj[property]))
           setPointScored(oldArray => [...oldArray, scoreObj[property]]);
         else {
+          console.log("Property is either empty or NAN")
           scoreObj[property] = originalObj[property]
           setPointScored(oldArray => [...oldArray, tempArr[counter]])
         }
         counter += 1
       }
-      // let oneObj = pointScored;
-      // let twoObj = scoreObj;
-      // let tempObj = {};
-      // tempObj = oneObj;
-      // for (let property in twoObj) {
-      //   if (property in tempObj)
-      //     tempObj[property] = twoObj[property];
-      // }
-      //setScoreObj(tempObj);
       console.log("Right before calling grades by student data looks like: ", scoreObj);
       props.onSaving(props.index, temp, scoreObj, comment);
     }
@@ -128,9 +124,6 @@ const ResultSection = (props) => {
     props.onDeleting(props.index);
 
   };
-
-  // const triggerRefValue
-
 
   const printValues = () => {
     console.log(testCaseHeader, expectedResult, actualResult, pointScored, totalPoints);

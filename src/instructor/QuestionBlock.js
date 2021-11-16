@@ -29,7 +29,7 @@ const QuestionBlock = (props) => {
         <p className="col-md-9 result-question-statement mt-2">
           {props.quesArray.questionNo}. {props.quesArray.questionString}
         </p>
-        <h1 className="result-points-statement col-md-3">{props.gradeObj.pointsForQuestion}/{props.quesArray.points} Points</h1>
+        <h1 className="result-points-statement col-md-3">{(Math.round(props.gradeObj.pointsForQuestion * 100) / 100).toFixed(2)}/{props.quesArray.points} Points</h1>
       </Row>
       <Row className="result-question-bottom">
         <textarea readOnly={props.gradeObj.responses} className="result-results-textarea"
