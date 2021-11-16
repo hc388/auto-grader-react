@@ -14,6 +14,7 @@ class Auth {
   }
 
   isAuthenticated() {
+    console.log(JSON.parse(localStorage.getItem("login")))
     console.log(JSON.parse(localStorage.getItem("login")).isLoggedIn)
     return JSON.parse(localStorage.getItem("login")).isLoggedIn;
   }

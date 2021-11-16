@@ -26,24 +26,23 @@ function HomePage(props) {
     updatePass(newPass);
   };
 
-  let detailsUpdater = (newDetails) => {
+  let detailsUpdater = async (newDetails) => {
     rollBackApiStatus();
     console.log("Details received", newDetails);
     if (newDetails.role === "UserNotFound") updateStatus(1);
-    updateRole(newDetails.role);
-    updateId(newDetails.id);
-    props.updateAppId(newDetails.id);
     const obj = {
       isLoggedIn: true,
       id: newDetails.id,
       role : newDetails.role
     };
-    localStorage.setItem("login", JSON.stringify(obj));
+    await localStorage.setItem("login", JSON.stringify(obj));
+    updateRole(newDetails.role);
+    updateId(newDetails.id);
+    props.updateAppId(newDetails.id);
   };
   let validateLogin = (user, pass) => {
     updateUser(user);
     updatePass(pass);
-    Auth.login(() => {})
     updateApiStatus(1);
 
     setLoading(false);
