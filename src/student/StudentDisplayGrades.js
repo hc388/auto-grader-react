@@ -92,13 +92,6 @@ const GradesByStudent = props => {
                       </thead>
                       <tbody>
                       <StudentResultSection gradeobj={obj}/>
-                      <tr>
-                        <th>Total</th>
-                        <td/>
-                        <td/>
-                        <th>{obj.pointsForQuestion}</th>
-                        <th>{obj.pointsForQuestion}</th>
-                      </tr>
                       </tbody>
                     </Table>
                     {obj.comments === null &&  <input readOnly={"No Comment"} value={"No Comment..."} className="col-md-11 result-comment-section" /> }

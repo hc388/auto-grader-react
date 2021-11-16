@@ -43,7 +43,7 @@ const ResultSection = (props) => {
     for(let property in props.gradeobj.gradingObj){
       tempObj = {
         ...tempObj,
-        [property] : parseInt(props.gradeobj.gradingObj[property][2])
+        [property] : parseFloat(props.gradeobj.gradingObj[property][2])
       }
     }
     setOriginalObj(tempObj)
@@ -83,11 +83,15 @@ const ResultSection = (props) => {
     let temp = 0;
     for (let value in scoreObj) {
       //console.log(Number(scoreObj[value]));
-      temp += Number(scoreObj[value]);
+      temp += parseFloat(scoreObj[value]);
     }
+    temp = temp.toFixed(2)
     console.log(temp);
-    if (temp > props.quesArray.points)
+    console.log(props.quesArray.points)
+    if (parseFloat(temp) > parseFloat(props.quesArray.points)) {
+      console.log("Triggering overflow")
       setOverFlow(true);
+    }
     else {
       await setNewTotal(temp);
       console.log("when you clicked save: ", scoreObj);

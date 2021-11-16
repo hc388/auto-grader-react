@@ -46,7 +46,7 @@ const GradesByStudent = props => {
     let newArray = []
     for(let obj in scoreArray){
       //console.log(scoreArray[obj].pointsForQuestion)
-      let point = parseInt(scoreArray[obj].pointsForQuestion)
+      let point = parseFloat(scoreArray[obj].pointsForQuestion)
       newArray.push(point)
     }
     setAnswerArray(newArray)
@@ -204,7 +204,7 @@ const GradesByStudent = props => {
           </Row>
           {saveStatus &&
             <Row>
-              Your changes were saved.
+              <h1>Your changes were saved.</h1>
             </Row>
           }
         </Container>
